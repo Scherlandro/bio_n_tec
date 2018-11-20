@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml">
+    <h:form>
+
+        <p:fieldset legend="Objetos">
+            <p:panelGrid columns="2">
+                <h:outputLabel value="Nome"></h:outputLabel>
+                <p:inputText value="#{usuarioBean.user.nome_usuario}"></p:inputText>
+                <h:outputLabel value="Email"></h:outputLabel>
+                <p:inputText value="#{usuarioBean.user.email}"></p:inputText>
+                <h:outputLabel value="Senha"></h:outputLabel>
+                <p:inputText value="#{usuarioBean.user.senha}"></p:inputText>
+                <h:outputLabel value="Perfil"></h:outputLabel>
+                <p:inputText value="#{usuarioBean.user.perfil}"></p:inputText>
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="Adicionar" action="#{usuarioBean.adicionar()}" update="@form"></p:commandButton>
+                        <p:commandButton value="Pesquisar" action="#{usuarioBean.listarUsurio()}" update="@form"></p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+            </p:panelGrid>
+            <p:dataTable value="#{usuarioBean.usuarios}" var="user" >
+                <p:column>
+                    <p:commandButton value="Editar" action="#{usuarioBean.editar(user)}" update="@form"></p:commandButton>
+                </p:column>
+                <p:column headerText="Nome" sortBy="#{user.nome_usuario}">
+                    <h:outputText value="#{user.nome_usuario}"></h:outputText>
+                </p:column>
+                <p:column headerText="Email" sortBy="#{user.email}">
+                    <h:outputText value="#{user.email}"></h:outputText>
+                </p:column>
+                <p:column headerText="Senha">
+                    <h:outputText value="#{user.senha}"></h:outputText>
+                </p:column>
+                <p:column headerText="Perfil">
+                    <h:outputText value="#{user.perfil}"></h:outputText>
+                </p:column>
+            </p:dataTable>
+
+        </p:fieldset>
+    </h:form>
+</ui:decorate>
+
