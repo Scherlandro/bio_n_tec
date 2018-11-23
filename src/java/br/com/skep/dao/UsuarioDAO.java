@@ -24,8 +24,8 @@ public class UsuarioDAO {
 
     public void logarUsuario(Usuario usuario) {
         try {
-            AcessoDB mysql = new AcessoDB();
-            pstm = mysql.conectar().prepareStatement(logando);
+            AcessoDB conDb = new AcessoDB();
+            pstm = conDb.conectar().prepareStatement(logando);
             pstm.setString(1, usuario.getNome_usuario());
             pstm.setString(2, usuario.getSenha());
             pstm.setString(3, usuario.getPerfil());
@@ -87,6 +87,7 @@ public class UsuarioDAO {
                 userB = new Usuario();
                 userB.setId_usuario(rs.getInt("id_usuario"));
                 userB.setNome_usuario(rs.getString("nome_usuario"));
+                userB.setEmail(rs.getString("email"));
                 userB.setSenha(rs.getString("senha"));
                 userB.setPerfil(rs.getString("perfil"));
                 usuario.add(userB);

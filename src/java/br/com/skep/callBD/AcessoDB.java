@@ -17,16 +17,17 @@ public class AcessoDB {
     }
 
     public static java.sql.Connection conectar() {
-        Connection conn = null;
+
+        //String driver = "com.mysql.jdbc.Driver";
+        String driver = "org.postgresql.Driver";
+        //String url = "jdbc:mysql://localhost:3306/Autofretebd";
+        String url = "jdbc:postgresql://localhost:5432/Autofretebd";
+        //String user = "root";//Usuario de administraçao DB no Mysql
+        String user = "postgres";//Usuario de administraçao DB no Postgresql
+        String senha = "84505050";
         try {
-            //String driver = "com.mysql.jdbc.Driver";
-            String driver = "org.postgresql.Driver";
             Class.forName(driver);
-            //String url = "jdbc:mysql://localhost:3306/Autofretebd";
-            String url = "jdbc:postgresql://localhost:5432/Autofretebd";
-            //String user = "root";//Usuario de administraçao DB no Mysql
-            String user = "userDB";//Usuario de administraçao DB no Postgresql
-            String senha = "84505050";
+            Connection conn = null;
             conn = DriverManager.getConnection(url, user, senha);
             //Testa sua conexão// 
             if (conn != null) {
