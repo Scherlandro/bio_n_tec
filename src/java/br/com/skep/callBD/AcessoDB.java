@@ -1,6 +1,5 @@
 package br.com.skep.callBD;
 
-
 import java.sql.*;
 import java.sql.Connection;
 //import org.gjt.mm.mysql.*;
@@ -8,23 +7,25 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-public class AcessoMySql {
+public class AcessoDB {
+
     public static String status = "Não conectou...";
-    private com.mysql.jdbc.Statement stmt;
-  
-    public AcessoMySql() {
+    //private com.mysql.jdbc.Statement stmt;
+
+    public AcessoDB() {
         conectar();
     }
 
     public static java.sql.Connection conectar() {
         Connection conn = null;
         try {
-            String driver = "com.mysql.jdbc.Driver";
+            //String driver = "com.mysql.jdbc.Driver";
+            String driver = "org.postgresql.Driver";
             Class.forName(driver);
-			String url = "jdbc:mysql://localhost:3306/Autofretebd";
-            String user = "root";
-          //String url = "jdbc:mysql://192.168.1.3/AssistanceTec";
-          //String user = "servidor2";
+            //String url = "jdbc:mysql://localhost:3306/Autofretebd";
+            String url = "jdbc:postgresql://localhost:5432/Autofretebd";
+            //String user = "root";//Usuario de administraçao DB no Mysql
+            String user = "userDB";//Usuario de administraçao DB no Postgresql
             String senha = "84505050";
             conn = DriverManager.getConnection(url, user, senha);
             //Testa sua conexão// 
@@ -46,8 +47,8 @@ public class AcessoMySql {
     public static boolean desconectar() {
         // boolean result = true;
         try {
-            AcessoMySql.conectar().close();
-          //  conn.close();
+            AcessoDB.conectar().close();
+            //  conn.close();
             return true;
             // JOptionPane.showMessageDialog(null,"Conexão do DB fechada");
         } catch (SQLException erroSQL) {
@@ -56,12 +57,13 @@ public class AcessoMySql {
             return false;
         }
     }
-        public static java.sql.Connection restartConection(){
-            desconectar();
-            return AcessoMySql.conectar();
-        }
-        
-        /*
+
+    public static java.sql.Connection restartConection() {
+        desconectar();
+        return AcessoDB.conectar();
+    }
+
+    /*
             public void Comandos(String cad) {
         try {
             stmt = (com.mysql.jdbc.Statement) conectar().createStatement();
@@ -72,5 +74,5 @@ public class AcessoMySql {
             JOptionPane.showMessageDialog(null, "Erro de conexão");
         }
     }
-*/
+     */
 }

@@ -1,6 +1,6 @@
 package br.com.skep.dao;
 
-import br.com.skep.callBD.AcessoMySql;
+import br.com.skep.callBD.AcessoDB;
 import br.com.skep.entity.Usuario;
 import com.sun.istack.internal.logging.Logger;
 import java.sql.PreparedStatement;
@@ -24,7 +24,7 @@ public class UsuarioDAO {
 
     public void logarUsuario(Usuario usuario) {
         try {
-            AcessoMySql mysql = new AcessoMySql();
+            AcessoDB mysql = new AcessoDB();
             pstm = mysql.conectar().prepareStatement(logando);
             pstm.setString(1, usuario.getNome_usuario());
             pstm.setString(2, usuario.getSenha());
@@ -40,7 +40,7 @@ public class UsuarioDAO {
 
     public void salvar(Usuario usuario) {
         try {
-            AcessoMySql mysql = new AcessoMySql();
+            AcessoDB mysql = new AcessoDB();
             if(usuario.getId_usuario() == null){
             pstm = mysql.conectar().prepareStatement(cadastrarUsuario);                
             }else{                
@@ -60,7 +60,7 @@ public class UsuarioDAO {
 
     public void alterarUsuario(Usuario usuario) {
         try {
-            AcessoMySql mysql = new AcessoMySql();
+            AcessoDB mysql = new AcessoDB();
             pstm = mysql.conectar().prepareStatement(alteraUsuario);
             pstm.setString(1, usuario.getNome_usuario());
             pstm.setString(2, usuario.getEmail());
@@ -78,7 +78,7 @@ public class UsuarioDAO {
     public List<Usuario> listarUsuarios(String user) {
         List<Usuario> usuario = new ArrayList();
         try {
-            AcessoMySql mysql = new AcessoMySql();
+            AcessoDB mysql = new AcessoDB();
             pstm = mysql.conectar().prepareStatement(consultarUsuario);
             pstm.setString(1, user);
             rs = pstm.executeQuery();
@@ -101,7 +101,7 @@ public class UsuarioDAO {
     public List<Usuario> listarTodosUsuarios() {
 
         try {
-            AcessoMySql mysql = new AcessoMySql();
+            AcessoDB mysql = new AcessoDB();
             pstm = mysql.conectar().prepareStatement(consultarTodosUsuario);
             rs = pstm.executeQuery();
             List<Usuario> usuario = new ArrayList();
@@ -125,7 +125,7 @@ public class UsuarioDAO {
 
     public void excluirUsuario(int id_usuario) {
         try {
-            AcessoMySql mysql = new AcessoMySql();
+            AcessoDB mysql = new AcessoDB();
             pstm = mysql.conectar().prepareStatement(excluirUsuario);
             pstm.setInt(1, id_usuario);
             pstm.executeUpdate();
@@ -137,7 +137,7 @@ public class UsuarioDAO {
 
     public String confirmarSenhaParaCadastrar(String senha) {
         try {
-            AcessoMySql mysql = new AcessoMySql();
+            AcessoDB mysql = new AcessoDB();
             pstm = mysql.conectar().prepareStatement(confirmarSenha);
             pstm.setString(1, senha);
             rs = pstm.executeQuery();
