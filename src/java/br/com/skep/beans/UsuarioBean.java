@@ -1,9 +1,10 @@
 
-package br.com.skep.usuario;
+package br.com.skep.beans;
 
 import br.com.skep.dao.UsuarioDAO;
 import br.com.skep.entity.Usuario;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -15,6 +16,7 @@ public class UsuarioBean {
     private Usuario user = new Usuario();
     private List<Usuario> usuarios = new ArrayList<>();
     private UsuarioDAO userDAO = new UsuarioDAO();
+    private String fusohr;
     private String mensagem;
     
     public void adicionar(){
@@ -31,7 +33,12 @@ public class UsuarioBean {
     }
     
     public void cumprimentar(){
-        mensagem = " Boa noite " + user.getPerfil()+ " " + user.getNome_usuario();
+         if (Calendar.getInstance().get(Calendar.AM_PM) == Calendar.AM){
+        fusohr = " Good Morning"; 
+        } else {
+       fusohr =  " Good AfterNoon"; 
+	}
+        mensagem = fusohr;// + user.getPerfil()+ " " + user.getNome_usuario();
     }
 
     public Usuario getUser() {

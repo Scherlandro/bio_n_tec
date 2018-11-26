@@ -1,79 +1,45 @@
 package br.com.skep.callBD;
 
-import java.sql.*;
 import java.sql.Connection;
-//import org.gjt.mm.mysql.*;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 public class AcessoDB {
 
-    public static String status = "Não conectou...";
-    //private com.mysql.jdbc.Statement stmt;
+    private static Connection conn;
+    private static final String DRIVER  = "com.mysql.jdbc.Driver";
+    //private static final String DRIVER = "org.postgresql.Driver";
+    private static final String URL = "jdbc:mysql://localhost:3306/Autofretebd";
+   // private static final String URL = "jdbc:postgresql://localhost:5432/Autofretebd";
+    private static final String USER = "root";//Usuario de administraçao DB no Mysql
+   // private static final String USER = "postgres";//Usuario de administraçao DB no Postgresql
+    private static final String SENHA = "84505050";
 
-    public AcessoDB() {
-        conectar();
-    }
+    public static Connection getConexao() throws ErroSistema {
 
-    public static java.sql.Connection conectar() {
-
-        //String driver = "com.mysql.jdbc.Driver";
-        String driver = "org.postgresql.Driver";
-        //String url = "jdbc:mysql://localhost:3306/Autofretebd";
-        String url = "jdbc:postgresql://localhost:5432/Autofretebd";
-        //String user = "root";//Usuario de administraçao DB no Mysql
-        String user = "postgres";//Usuario de administraçao DB no Postgresql
-        String senha = "84505050";
-        try {
-            Class.forName(driver);
-            Connection conn = null;
-            conn = DriverManager.getConnection(url, user, senha);
-            //Testa sua conexão// 
-            if (conn != null) {
-                status = ("STATUS--->Conectado com sucesso!");
-            } else {
-                status = ("STATUS--->Não foi possivel realizar conexão");
+        if (conn == null) {
+            try {
+                Class.forName(DRIVER);
+                conn = DriverManager.getConnection(URL, USER, SENHA);
+            } catch (SQLException ex) {
+                throw new ErroSistema("Não foi possível conectar ao BD", ex);
+            } catch (ClassNotFoundException ex) {
+                throw new ErroSistema("Driver não encontrado", ex);
             }
-            return conn;
-        } catch (ClassNotFoundException Driver) {
-            JOptionPane.showMessageDialog(null, "Driver não localizado!" + Driver);
-            return null;
-        } catch (SQLException Fonte) {
-            JOptionPane.showMessageDialog(null, "Não foi possivel conectar ao banco!" + Fonte);
-            return null;
+        }
+        return conn;
+    }
+
+    
+    public static void desconectar() throws ErroSistema {
+        if (conn == null) {
+            try {
+                conn.close();
+                conn = null;
+            } catch (SQLException ex) {
+                throw new ErroSistema("Erro ao desconectar o BD", ex);
+            }
         }
     }
 
-    public static boolean desconectar() {
-        // boolean result = true;
-        try {
-            AcessoDB.conectar().close();
-            //  conn.close();
-            return true;
-            // JOptionPane.showMessageDialog(null,"Conexão do DB fechada");
-        } catch (SQLException erroSQL) {
-            JOptionPane.showMessageDialog(null, "Não foi possivel " + erroSQL
-                    + "Desconectar ao banco!" + erroSQL.getMessage());
-            return false;
-        }
-    }
-
-    public static java.sql.Connection restartConection() {
-        desconectar();
-        return AcessoDB.conectar();
-    }
-
-    /*
-            public void Comandos(String cad) {
-        try {
-            stmt = (com.mysql.jdbc.Statement) conectar().createStatement();
-            stmt.execute(cad);
-            stmt.close();
-            desconectar();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro de conexão");
-        }
-    }
-     */
 }

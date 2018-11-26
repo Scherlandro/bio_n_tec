@@ -1,19 +1,23 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
-             xmlns:h="http://xmlns.jcp.org/jsf/html"
-             xmlns:p="http://primefaces.org/ui"
-             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-             template="template.xhtml">
-    <h:form>
-        <p:panelGrid columns="2">
-            <h:outputLabel for="prenome" value="Nome"></h:outputLabel>
-            <p:inputText id="prenome" value="#{usuarioBean.user.nome_usuario}"></p:inputText>
-            <h:outputLabel for="senha" value="Senha"></h:outputLabel>
-            <p:inputText id="senha" value="#{usuarioBean.user.senha}"></p:inputText>
-            <p:commandButton value="Enviar" action="#{usuarioBean.cumprimentar()}" update="msg" ></p:commandButton>
-            <h:outputText id="msg" value="#{usuarioBean.mensagem}"></h:outputText>
-        </p:panelGrid>            
-    </h:form>
-</ui:decorate>
-
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:panelGrid columns="2">
+                <p:messages autoUpdate="true"/>
+                <h:outputLabel for="prenome" value="Nome"></h:outputLabel>
+                <p:inputText id="prenome" value="#{loginBean.nome}" required="true" requiredMessage="Nome ou "></p:inputText>
+                <h:outputLabel for="senha" value="Senha"></h:outputLabel>
+                <h:inputSecret id="senha" value="#{loginBean.senha}" required="true" requiredMessage=" senha invalida"></h:inputSecret>
+                <p:commandButton value="Logar" action="#{loginBean.logar()}" ></p:commandButton>
+               <!-- <h:outputText id="msg" value="#{loginBean.mensagemAdvertencia}"></h:outputText> -->
+            </p:panelGrid>            
+        </h:form>
+        Entre com Nome de usuário e senha
+    </h:body>
+</html>

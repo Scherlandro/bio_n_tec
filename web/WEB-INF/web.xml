@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <context-param>
+   <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
@@ -18,7 +18,15 @@
             30
         </session-timeout>
     </session-config>
+    <filter>
+        <filter-name>PageFilter</filter-name>
+        <filter-class>br.com.skep.filter.PageFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PageFilter</filter-name>
+        <url-pattern>/restricted/*</url-pattern>
+    </filter-mapping>
     <welcome-file-list>
-        <welcome-file>index.jsf</welcome-file>
+        <welcome-file>radix.jsf</welcome-file>
     </welcome-file-list>
 </web-app>
