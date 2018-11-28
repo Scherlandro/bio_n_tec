@@ -43,11 +43,12 @@ public class UsuarioDAO {
                 pstm = conDb.prepareCall(cadastrarUsuario);
             } else {
                 pstm = conDb.prepareCall(alteraUsuario);
+                pstm.setInt(5, usuario.getId_usuario());
             }
             pstm.setString(1, usuario.getNome_usuario());
             pstm.setString(2, usuario.getEmail());
             pstm.setString(3, usuario.getSenha());
-            pstm.setString(4, usuario.getPerfil());
+            pstm.setString(4, usuario.getPerfil());            
             pstm.executeUpdate();
             AcessoDB.desconectar();
 

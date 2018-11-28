@@ -16,8 +16,15 @@
             <p:menuitem value="Clientes" url="cliente.jsf"></p:menuitem>
             <p:menuitem value="Sair" url="radix.jsf" update="#{loginBean.logout()}"></p:menuitem>
         </p:menubar>
+        <p:tooltip />
+        <h:form id="formTop">
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate /> 
+            </p:messages> 
+        </h:form> 
+        <p:separator />
         <hr/>
-        <ui:insert></ui:insert>
+        <ui:insert></ui:insert> 
     </h:body>
 </html>
 

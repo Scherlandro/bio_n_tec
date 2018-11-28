@@ -1,5 +1,5 @@
 
-package br.com.skep.validar;
+package br.com.skep.averidores;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;

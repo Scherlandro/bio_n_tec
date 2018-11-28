@@ -6,12 +6,13 @@
       xmlns:p="http://primefaces.org/ui"
       template="template.xhtml">
     
-    <h1 onmousemove="#{usuarioBean.cumprimentar()}"> Seja bem vindo  </h1>
-    <span> SkepCorporation </span>
-    <h:form>
-    <p:panelGrid>
-       <h:outputText id="msg" value="#{usuarioBean.mensagem}"></h:outputText>
-    </p:panelGrid>     
-    </h:form>  
+    <h1 onmousemove="#{mensagens.cumprimentar()}"> SkepCorporation </h1>
+    <p:tooltip />
+        <h:form id="formTop2">
+            <p:messages id="messIndex" showDetail="true" closable="true">
+                <p:autoUpdate /> 
+            </p:messages> 
+        </h:form> 
+        <p:separator />
 </ui:decorate>
 

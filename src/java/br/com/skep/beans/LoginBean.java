@@ -3,10 +3,7 @@ package br.com.skep.beans;
 import br.com.skep.dao.UsuarioDAO;
 import br.com.skep.entity.Usuario;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.inject.Named;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -33,13 +30,8 @@ public class LoginBean implements Serializable{
             return "/index.jsf?faces-redirect=true";
             //return "/restricted/index.jsf?faces-redirect=true"; ERRO-> não sobe para diretorio web
         }
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Usuario ou senha invalidos!",""));
         return null;
-        //else {
-          //  mensagemAdvertencia = "Usuario ou senha invalidos!";
-           // return mensagemAdvertencia;
-       // }
+        
     }
     
     public String logout(){
@@ -48,34 +40,6 @@ public class LoginBean implements Serializable{
         return "/radix?faces-redirect=true";
     }
 
-    public void idetificarHierarquia() {
-        Usuario user = new Usuario();
-        List<Usuario> perfil = new ArrayList<>();
-        perfil = userDAO.consultarPerfil(user.getId_usuario());
-        perfil.add(user);
-        switch (user.getPerfil()) {
-            case "Administrador":
-                //perfilAdministrador();
-                hierarquia = " Boa noite " + user.getPerfil() + " " + user.getNome_usuario();
-                break;
-            case "Gerencia":
-                // perfilGerencia();
-                hierarquia = " Boa noite " + user.getPerfil() + " " + user.getNome_usuario();
-                break;
-            case "Manutencao":
-                //perfilManutencao();
-                hierarquia = " Boa noite " + user.getPerfil() + " " + user.getNome_usuario();
-                break;
-            case "Vendedor":
-                // perfilVendedor();
-                hierarquia = " Boa noite " + user.getPerfil() + " " + user.getNome_usuario();
-                break;
-            case "Entregador":
-                // perfilEntregador();
-                hierarquia = " Boa noite " + user.getPerfil() + " " + user.getNome_usuario();
-                break;
-        }
-    }
 
     public String getHierarquia() {
         return hierarquia;
@@ -116,7 +80,37 @@ public class LoginBean implements Serializable{
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
-   
+ 
 
 }
+    /*
+    
+    public void idetificarHierarquia() {
+        Usuario user = new Usuario();
+        List<Usuario> perfil = new ArrayList<>();
+        perfil = userDAO.consultarPerfil(user.getId_usuario());
+        perfil.add(user);
+        switch (user.getPerfil()) {
+            case "Administrador":
+                //perfilAdministrador();
+                hierarquia = " Boa noite " + user.getPerfil() + " " + user.getNome_usuario();
+                break;
+            case "Gerencia":
+                // perfilGerencia();
+                hierarquia = " Boa noite " + user.getPerfil() + " " + user.getNome_usuario();
+                break;
+            case "Manutencao":
+                //perfilManutencao();
+                hierarquia = " Boa noite " + user.getPerfil() + " " + user.getNome_usuario();
+                break;
+            case "Vendedor":
+                // perfilVendedor();
+                hierarquia = " Boa noite " + user.getPerfil() + " " + user.getNome_usuario();
+                break;
+            case "Entregador":
+                // perfilEntregador();
+                hierarquia = " Boa noite " + user.getPerfil() + " " + user.getNome_usuario();
+                break;
+        }
+    }
+    */

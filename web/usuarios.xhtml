@@ -4,11 +4,14 @@
              xmlns:h="http://xmlns.jcp.org/jsf/html"
              xmlns:p="http://primefaces.org/ui"
              xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-             template="template.xhtml">
-    <h:form>
+             template="template.xhtml"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+    <h:form>
         <p:fieldset legend="Objetos">
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="2" >
+                <h:outputLabel value="ID"></h:outputLabel>
+                <p:inputText value="#{usuarioBean.user.id_usuario}"></p:inputText>
                 <h:outputLabel value="Nome"></h:outputLabel>
                 <p:inputText value="#{usuarioBean.user.nome_usuario}"></p:inputText>
                 <h:outputLabel value="Email"></h:outputLabel>
@@ -19,14 +22,18 @@
                 <p:inputText value="#{usuarioBean.user.perfil}"></p:inputText>
                 <p:toolbar>
                     <p:toolbarGroup>
-                        <p:commandButton value="Adicionar" action="#{usuarioBean.adicionar()}" update="@form"></p:commandButton>
-                        <p:commandButton value="Pesquisar" action="#{usuarioBean.listarUsurio()}" update="@form"></p:commandButton>
-                    </p:toolbarGroup>
+                        <p:commandButton value="Salvar" actionListener="#{usuarioBean.adicionar()}" update="@form" action="#{mensagens.msgDeGravacao()}"></p:commandButton>
+                        <p:commandButton value="Pesquisar" actionListener="#{usuarioBean.listarUsurio()}" update="@form" action="#{mensagens.msgAdvertir()}"></p:commandButton>
+                      </p:toolbarGroup>
                 </p:toolbar>
+
             </p:panelGrid>
             <p:dataTable value="#{usuarioBean.usuarios}" var="user" >
                 <p:column>
                     <p:commandButton value="Editar" action="#{usuarioBean.editar(user)}" update="@form"></p:commandButton>
+                </p:column>
+                <p:column headerText="ID" sortBy="#{user.id_usuario}">
+                    <h:outputText value="#{user.id_usuario}"></h:outputText>
                 </p:column>
                 <p:column headerText="Nome" sortBy="#{user.nome_usuario}">
                     <h:outputText value="#{user.nome_usuario}"></h:outputText>
@@ -39,6 +46,9 @@
                 </p:column>
                 <p:column headerText="Perfil">
                     <h:outputText value="#{user.perfil}"></h:outputText>
+                </p:column>
+                <p:column headerText="Remover">
+                    <p:commandButton value="Remover" actionListener="#{usuarioBean.remover(user)}" action="#{mensagens.msgDeExcluir()}" update="@form"></p:commandButton>
                 </p:column>
             </p:dataTable>
         </p:fieldset>
