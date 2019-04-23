@@ -12,12 +12,12 @@ public class UsuarioDAO {
 
     PreparedStatement pstm;
     ResultSet rs;
-    String consultarTodosUsuario = "Select *From Usuario";
-    String consultarPerfil = "SELECT *FROM Usuario WHERE nome_usuario LIKE ?";
-    String cadastrarUsuario = "Insert into Usuario (nome_usuario, email, senha, perfil)  Values (?, ?,?,?)";
-    String alteraUsuario = "UPDATE Usuario Set nome_usuario = ?, email = ?, senha = ?, perfil = ? Where id_usuario = ?";
-    String excluirUsuario = "Delete From Usuario Where id_usuario = ?";
-    String logando = "SELECT *FROM Usuario WHERE nome_usuario LIKE ? and senha LIKE ?";
+   private String consultarTodosUsuario = "Select *From Usuario";
+   private String consultarPerfil = "SELECT *FROM Usuario WHERE nome_usuario LIKE ?";
+   private String cadastrarUsuario = "Insert into Usuario (nome_usuario, email, senha, perfil)  Values (?, ?,?,?)";
+   private String alteraUsuario = "UPDATE Usuario Set nome_usuario = ?, email = ?, senha = ?, perfil = ? Where id_usuario = ?";
+   private String excluirUsuario = "Delete From Usuario Where id_usuario = ?";
+   private String logando = "SELECT *FROM Usuario WHERE nome_usuario LIKE ? and senha LIKE ?";
 
     public Boolean logarUsuario(String nome, String senha) {
         try {
@@ -105,7 +105,7 @@ public class UsuarioDAO {
             pstm = conDb.prepareStatement(excluirUsuario);
             pstm.setInt(1, id_usuario);
             pstm.executeUpdate();
-            conDb.close();
+            AcessoDB.desconectar();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -33,6 +33,7 @@
         <url-pattern>/restricted/*</url-pattern>
     </filter-mapping>
     <welcome-file-list>
-        <welcome-file>radix.jsf</welcome-file>
+        <!--  <welcome-file>cliente.jsf</welcome-file> -->
+        <welcome-file>radix.jsf</welcome-file> 
     </welcome-file-list>
 </web-app>

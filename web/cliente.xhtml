@@ -7,174 +7,125 @@
              template="template.xhtml"
              xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+    <h:form id="cadastroClientes">
+        <!-- <p:fieldset legend="Objetos"> -->
+        
+        
+        <p:panelGrid  columns="4">
 
-
-    <h:form id="frmCliente">
-        <p:fieldset legend="Gerenciamento de Clientes" toggleable="true">
-            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-
-            <h:panelGrid columns="4" id="pnCliente" style="font-family: Verdana;" >
-
-                <h:outputLabel id="lbNome" value="*Nome:" for="nome"
-                               style="float: right;" />
-                <p:inputText id="nome" size="50"
-                             value="#{clienteBean.cliente.nome}" required="true"
-                             requiredMessage="Campo [Nome] é obrigatório." />
-
-                <h:outputLabel id="lbInscEstadual" value="Inscrição Estadual:" for="inscricaoest"
-                               style="float: right;" />
-                <p:inputText id="inscricaoest" size="20"
-                             value="#{clienteBean.cliente.inscricaoest}" />
-
-                <h:outputLabel id="lbLogradouro" value="Logradouro:" for="logradouro"
-                               style="float: right;" />
-                <p:inputText id="logradouro" size="50"
-                             value="#{clienteBean.cliente.endereco.logradouro}" />
-
-                <h:outputLabel id="lbComplemento" value="Complemento:" for="complemento"
-                               style="float: right;" />
-                <p:inputText id="complemento" size="50"
-                             value="#{clienteBean.cliente.endereco.complemento}" />
-
-                <h:outputLabel id="lbBairro" value="Bairro:" for="bairro"
-                               style="float: right;" />
-                <p:inputText id="bairro" size="20"
-                             value="#{clienteBean.cliente.endereco.bairro}" />
-
-                <h:outputLabel id="lbNumero" value="Número:" for="numero"
-                               style="float: right;" />
-                <p:inputText id="numero" size="20"
-                             value="#{clienteBean.cliente.endereco.numero}" />
-
-                <h:outputLabel id="lbCidade" value="Cidade:" for="cidade"
-                               style="float: right;" />
-                <p:inputText id="cidade" size="20"
-                             value="#{clienteBean.cliente.endereco.cidade}" />
-
-                <h:outputLabel id="lbEstado" value="Estado:" for="estado"
-                               style="float: right;" />
-                <p:inputText id="estado" size="20"
-                             value="#{clienteBean.cliente.endereco.estado}" />
-
-                <h:outputLabel id="lbPais" value="País:" for="pais"
-                               style="float: right;" />
-                <p:inputText id="pais" size="20"
-                             value="#{clienteBean.cliente.endereco.pais}" />
-
-                <h:outputLabel id="lbTelefone1" value="Telefone 1:" for="telefone1"
-                               style="float: right;" />
-                <p:inputMask mask="(999) 9999-9999" id="telefone1" size="20"
-                             value="#{clienteBean.cliente.endereco.telefone1}" />
-
-                <h:outputLabel id="lbTelefone2" value="Telefone 2:" for="telefone2"
-                               style="float: right;" />
-                <p:inputMask mask="(999) 9999-9999" id="telefone2" size="20"
-                             value="#{clienteBean.cliente.endereco.telefone2}" />
-
-                <h:outputLabel id="lbCelular" value="Celular:" for="celular"
-                               style="float: right;"  />
-                <p:inputMask mask="(999) 9999-9999" id="celular" size="20"
-                             value="#{clienteBean.cliente.endereco.celular}" />
-
-                <h:outputLabel id="lbPessoa" value="*Pessoa: " for="pessoa"
-                               style="float: right;" />
-                <h:selectOneRadio id="pessoa" value="#{clienteBean.cliente.pessoa}" required="true"
+            <p:panelGrid columns="2">
+                <h:outputLabel value="*Nome:" style="float: left;" />
+                <p:inputText  value="#{clienteBean.clientEntity.nome_cliente}"></p:inputText>
+                <h:outputLabel value="Inscrição Estadual" style="float: left;"></h:outputLabel>
+                <p:inputText value="#{clienteBean.clientEntity.inscricaoest}"></p:inputText>
+               
+                <h:selectOneRadio id="pessoa" value="#{clienteBean.clientEntity.pessoa}" required="false"
                                   requiredMessage="Campo [Pessoa] é obrigatório." >
                     <f:selectItem itemLabel="Jurídica" itemValue="Jurídica" />
                     <f:selectItem itemLabel="Física" itemValue="Física" />
-                    <p:ajax event="change" update="pnlPessoa" process="@this"/> 
+                    <p:ajax event="change" update="pnPessoa" process="@this"/>
                 </h:selectOneRadio>
 
-                <p:outputPanel id="pnlPessoa" >
 
-                    <h:outputLabel id="lbCpf" value="CPF:" for="cpf" rendered="#{clienteBean.cliente.pessoa=='Física'}"
-                                   style="float: right;" />
-                    <p:inputMask mask="999.999.999-99" id="cpf" size="25" rendered="#{clienteBean.cliente.pessoa=='Física'}"
-                                 value="#{clienteBean.cliente.cpf}" />
+                <p:outputPanel id="pnPessoa" >
+                    <p:panelGrid columns="2">
+                        <h:outputLabel id="lbCpf" value="CPF:" for="cpf" style="float: right;" rendered="#{clienteBean.clientEntity.pessoa=='Física'}"/>
+                        <p:inputMask mask="999.999.999-99" id="cpf" size="20" rendered="#{clienteBean.clientEntity.pessoa=='Física'}"
+                                     value="#{clienteBean.clientEntity.cpf}" />
 
-                    <h:outputLabel id="lbCnpj" value="CNPJ:" for="cnpj" rendered="#{clienteBean.cliente.pessoa=='Jurídica'}"
-                                   style="float: right;" /> 
-                    <p:inputMask mask="99.999.999/9999-99" id="cnpj" size="25" rendered="#{clienteBean.cliente.pessoa=='Jurídica'}"
-                                 value="#{clienteBean.cliente.cnpj}" />
-
+                        <h:outputLabel id="lbCnpj" value="CNPJ:" for="cnpj" rendered="#{clienteBean.clientEntity.pessoa=='Jurídica'}"
+                                       style="float: right;" />
+                        <p:inputMask mask="99.999.999/9999-99" id="cnpj" size="20" rendered="#{clienteBean.clientEntity.pessoa=='Jurídica'}"
+                                     value="#{clienteBean.clientEntity.cnpj}" />
+                    </p:panelGrid>
                 </p:outputPanel>
 
-                <h:inputHidden id="id_cliente"
-                               value="#{clienteBean.cliente.id_cliente}" />
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="Telefone:" style="float: left;"></h:outputLabel>
+                    <p:inputMask value="#{clienteBean.clientEntity.telefone}" mask="(99)999999999"/>
+                    <h:outputLabel value="Celular:" style="float: left;"></h:outputLabel>
+                    <p:inputMask value="#{clienteBean.clientEntity.celular}" mask="(99)999999999"/>
+                    <h:outputLabel value="Zap:" style="float: left;"></h:outputLabel>
+                    <p:inputMask value="#{clienteBean.clientEntity.zap}" mask="(99)999999999"/>
+                </p:panelGrid>
+        </p:panelGrid>
+            
+            <p:panelGrid>
+             <p:commandButton value="Busca por CEP" onclick="PF('resultCep').show();" type="button" icon="pi pi-home" />
+                    <h:selectOneRadio value="#{theActionBean.tag}" required="false" >
+                        <f:selectItem  itemValue="verEndereco" itemLabel="Ver busca" />
+                        <f:selectItem  itemValue="limparEndereco" itemLabel="Atualizar" />
+                        <p:ajax event="change" update="resultCep2" process="@this"/>
+                    </h:selectOneRadio>
 
-            </h:panelGrid>
+                <h:panelGroup id="resultCep2"  >
+                    <p:panelGrid columns="2" id="pnGCep2" >
+                        <h:outputLabel value="CEP:" style="float: left;"/>
+                        <p:inputMask mask="99999-999" value="#{clienteBean.clientEntity.cep}"  />
+                        <h:outputLabel value="Logradouro:" style="float: left;"/>
+                        <p:inputText id="idLogradouro2" value="#{clienteBean.clientEntity.logradouro}"/>
+                        <h:outputLabel value="Nº:" style="float: left;"/>
+                        <p:inputText id="idNumero2" value="#{clienteBean.clientEntity.numero}"/>
+                        <h:outputLabel value="Bairro:" style="float: left;"/>
+                        <p:inputText  id="idBairro2" value="#{clienteBean.clientEntity.bairro}" />
+                        <h:outputLabel value="Cidade:" style="float: left;"/>
+                        <p:inputText   id="idCidade2" value="#{clienteBean.clientEntity.cidade}" />
+                        <h:outputLabel value="UF:" style="float: left;"/>
+                        <p:inputText  id="idEstado2"  value="#{clienteBean.clientEntity.estado}"  />
+                    </p:panelGrid>
+                </h:panelGroup>
+            </p:panelGrid>
 
-            <h:panelGrid columns="3"
-                         style="font-size: 12px; font-weight: bold;" >
-                <p:commandButton value="Gravar" action="#{clienteBean.gravar()}"
-                                 update="frmCliente, messages, dtClientes" />
-                <p:commandButton value="Limpar" update="frmCliente"
-                                 process="@this" immediate="true"
-                                 action="#{clienteBean.limpar()}" />
-            </h:panelGrid>
 
-            <br></br>
+            <p:dialog header="Busca Endereço" id="resultCep" widgetVar="resultCep" focus="idcep">
+                <p:panelGrid columns="2" id="pnGCep"  >
+                    <p:inputMask id="idcep" mask="99999-999" value="#{mbService.cepResult}"  />
+                    <p:commandButton value="Cep:" style="float: left;" action="#{mbService.encontraCEP()}" update="resultCep"
+                     onkeypress="#{clienteBean.execute(mbService.cepResult,mbService.tipoLogradouro,
+                     mbService.logradouro, mbService.bairro, mbService.cidade, mbService.estado)}"/>
+                </p:panelGrid>                         
+            </p:dialog>
 
-            <p:spacer height="10" />
 
-            <p:dataTable id="dtClientes"
-                         emptyMessage="Nenhum registro encontrado."
-                         value="#{clienteBean.listCliente}" var="c"
-                         style="text-align: center; font-size: 12px;" paginator="true"
-                         rows="10"
-                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowsPerPageTemplate="10,20,50">
 
-                <f:facet name="header">
-                    <h:outputText value="Registro de Clientes" />
-                </f:facet>
+        </p:panelGrid>
 
-                <p:column id="nomeColumn" filterBy="#{c.nome}"
-                          headerText="Filtrar por nome" filterMatchMode="contains">
-                    <f:facet name="header">
-                        <h:outputText value="Nome" />
-                    </f:facet>
-                    <h:outputText value="#{c.nome}" />
-                </p:column>
+        <p:commandButton value="Salvar" actionListener="#{clienteBean.adicionar()}" update="@form" action="#{mensagens.msgDeGravacao()}"></p:commandButton>
+        <p:commandButton value="Pesquisar" actionListener="#{clienteBean.listarClientes()}" update="tbCliente" action="#{mensagens.msgAdvertir()}"></p:commandButton>
 
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="CPF" />
-                    </f:facet>
-                    <h:outputText value="#{c.cpf}" />
-                </p:column>
-
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="CNPJ" />
-                    </f:facet>
-                    <h:outputText value="#{c.cnpj}" />
-                </p:column>
-
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="Ações" />
-                    </f:facet>
-                    <h:commandLink>
-                        <h:graphicImage title="Editar" url="images/edite.png"
-                                        value="Editar" height="16px" width="16px" />                                    
-                        <p:ajax event="click"
-                                listener="#{clienteBean.preparaEditar(c)}" update="@form" />
-                    </h:commandLink>
-                    <t></t>
-                    <p:commandLink actionListener="#{clienteBean.prepararExcluir(c)}"
-                                   onclick="confirm.show()" immediate="true">
-                        <h:graphicImage value="images/delete.png" alt="Excluir"
-                                        title="Excluir" style="border: none" height="16px"
-                                        width="16px" />
-                    </p:commandLink>
-                </p:column>
-
-                <f:facet name="footer">
-                    <h:outputText
-                        value="Há um total de #{clienteBean.count} Cliente(s) cadastrado(s) no sistema." />
-                </f:facet>
-            </p:dataTable>
-        </p:fieldset>
+        <p:dataTable id="tbCliente" value="#{clienteBean.clientList}" var="listClie" emptyMessage="Nenhum registro encontrado."
+                     style="font-size: 14px;" paginator="true"
+                     rows="5"
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,20,50">
+            <p:column headerText="Nome">
+                <h:outputText style="text-align: left;" value="#{listClie.nome_cliente}"></h:outputText>
+            </p:column>
+            <p:column headerText="CPF" >
+                <h:outputText value="#{listClie.cpf}"></h:outputText>
+            </p:column>
+            <p:column headerText="CNPJ">
+                <h:outputText value="#{listClie.cnpj}"></h:outputText>
+            </p:column>
+            <p:column headerText="Bairro">
+                <h:outputText value="#{listClie.bairro}"></h:outputText>
+            </p:column>
+            <p:column headerText="Cidade">
+                <h:outputText value="#{listClie.cidade}"></h:outputText>
+            </p:column>
+            <p:column headerText="Estado">
+                <h:outputText value="#{listClie.estado}"></h:outputText>
+            </p:column>
+            <p:column>
+                <p:commandButton value="Editar" actionListener="#{clienteBean.editar(listClie)}" update="@all"/>
+            </p:column>
+            <p:column>
+                <p:commandButton value="Remover" actionListener="#{clienteBean.remover(listClie)}" action="#{mensagens.msgDeExcluir()}" update="@form"></p:commandButton>
+            </p:column>
+        </p:dataTable>
+        <!-- </p:fieldset> -->
     </h:form>
+
+
 </ui:decorate>
+

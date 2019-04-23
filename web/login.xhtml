@@ -1,23 +1,30 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-    </h:head>
-    <h:body>
-        <h:form>
-            <p:panelGrid columns="2">
-                <p:messages id="messIndex" showDetail="true" closable="true">
-                    <p:autoUpdate /> 
-                </p:messages> 
-                <h:outputLabel for="prenome" value="Nome"></h:outputLabel>
-                <p:inputText id="prenome" value="#{loginBean.nome}" ></p:inputText>
-                <h:outputLabel for="senha" value="Senha"></h:outputLabel>
-                <h:inputSecret id="senha" value="#{loginBean.senha}" ></h:inputSecret>
-                <p:commandButton value="Logar" action="#{loginBean.logar()}" actionListener="#{mensagens.msgDeErro()}" ></p:commandButton>
-            </p:panelGrid>            
-        </h:form>
-        Entre com Nome de usuário e senha
-    </h:body>
-</html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="radix.xhtml">
+                 
+   
+        <p:dialog  header="Login" id="idlogin" widgetVar="login" 
+                   footer=" Entre com Nome de usuário e senha"
+                   closable="true" draggable="true" maximizable="true" minimizable="true"
+                   showEffect="explode" hideEffect="bounce" height="100" modal="true"
+                   position="center" resizable="false" visible="true">
+
+            <h:form>            
+                <p:panelGrid columns="2">
+                    <p:messages id="messIndex" showDetail="true" closable="true">
+                        <p:autoUpdate /> 
+                    </p:messages> 
+                    <h:outputLabel for="prenome" value="Nome"></h:outputLabel>
+                    <p:inputText id="prenome" value="#{loginBean.nome}" ></p:inputText>
+                    <h:outputLabel for="senha" value="Senha"></h:outputLabel>
+                    <h:inputSecret id="senha" value="#{loginBean.senha}" ></h:inputSecret>
+                    <p:commandButton value="Logar" action="#{loginBean.logar()}" actionListener="#{mensagens.msgDeErro()}" ></p:commandButton>
+                </p:panelGrid>            
+            </h:form>
+        </p:dialog>
+
+</ui:decorate>

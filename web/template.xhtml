@@ -4,6 +4,12 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
+      <script type="text/javascript">
+        function preback(){window.history.forward();}
+        setTimeout("preback()",0);
+        window.onunload=function(){null;};
+    </script>
+        
     <h:head>
         <title>SkepCorp</title>
     </h:head>
@@ -11,11 +17,25 @@
         <hl> Central SkepCorp </hl>
         <p:menubar>
             <p:menuitem value="Home" url="index.jsf"></p:menuitem>
-            <p:menuitem value="Logar" url="login.jsf"></p:menuitem>
             <p:menuitem value="Usurios" url="usuarios.jsf"></p:menuitem>
             <p:menuitem value="Clientes" url="cliente.jsf"></p:menuitem>
+            <p:menuitem value="Funcionarios" url="funcionario.jsf"></p:menuitem>
+            <p:menuitem value="Produtos" url="produto.jsf"></p:menuitem>
+            <p:menuitem value="LogIn" url="login.jsf"></p:menuitem>
+            <p:separator/>
             <p:menuitem value="Sair" url="radix.jsf" update="#{loginBean.logout()}"></p:menuitem>
         </p:menubar>
+        
+            <p:dock position="top" maxWidth="60">
+                <p:menuitem value="Home" icon="/resources/images/home.png" url="index.jsf"/>
+                <p:menuitem value="Usuarios" icon="/resources/images/clone_old.png" url="usuarios.jsf"/>
+                <p:menuitem value="Clientes" icon="/resources/images/clientes.png" url="cliente.jsf"/>
+                <p:menuitem value="LogIn" icon="/resources/images/naboo_starfighter.png" url="login.jsf"/>
+                <p:menuitem value="Funcionarios" icon="/resources/images/darth_vader.png" url="funcionario.jsf"/>
+                <p:menuitem value="Produtos" icon="/resources/images/r2_d2.png" url="produto.jsf"/>
+                <p:menuitem value="Link" icon="/resources/images/darth_maul2.png" url="http://scherlandro.blogspot.com/"/>
+            </p:dock>
+        
         <p:tooltip />
         <h:form id="formTop">
             <p:messages id="messages" showDetail="true" closable="true">

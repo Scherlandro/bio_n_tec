@@ -13,46 +13,45 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 public class UsuarioBean {
     
-    private Usuario user = new Usuario();
-    private List<Usuario> usuarios = new ArrayList<>();
+    private Usuario userEntity = new Usuario();
+    private List<Usuario> userList = new ArrayList<>();
     private final UsuarioDAO userDAO = new UsuarioDAO();
     
     public void adicionar(){
-       // usuarios.add(user); para não repetir registro ao alterar
-        userDAO.salvar(user);
-        user = new Usuario();
-        //usuarios.clear();
-    }
+       // userList.add(userEntity); para não repetir registro ao alterar
+        userDAO.salvar(userEntity);
+        userEntity = new Usuario();
+        //userList.clear();
+    }    
     
     public void listarUsurio(){
-        usuarios = userDAO.listarTodosUsuarios();
+        userList = userDAO.listarTodosUsuarios();
     }
     public void editar(Usuario u){
-        user = u;
-    }
+        userEntity = u;
+    }    
     
     public void remover(Usuario u){
-        user = u;
-        userDAO.excluirUsuario(user.getId_usuario());
-        user = new Usuario();
-        
-    }
-
-    
-    public Usuario getUser() {
-        return user;
+        userEntity = u;
+        userDAO.excluirUsuario(userEntity.getId_usuario());
+        userEntity = new Usuario();
+        userList.clear();
     }
     
-    public void setUser(Usuario user) {
-        this.user = user;
+    public Usuario getUserEntity() {
+        return userEntity;
+    }
+    
+    public void setUserEntity(Usuario userEntity) {
+        this.userEntity = userEntity;
     }
 
-    public List<Usuario> getUsuarios() {
-        return usuarios;
+    public List<Usuario> getUserList() {
+        return userList;
     }
 
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
+    public void setUserList(List<Usuario> userList) {
+        this.userList = userList;
     }
 
 }

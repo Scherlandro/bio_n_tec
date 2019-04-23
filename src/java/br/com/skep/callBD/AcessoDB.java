@@ -15,29 +15,29 @@ public class AcessoDB {
    // private static final String USER = "postgres";//Usuario de administraçao DB no Postgresql
     private static final String SENHA = "84505050";
 
-    public static Connection getConexao() throws ErroSistema {
+    public static Connection getConexao() throws TratarErros {
 
         if (conn == null) {
             try {
                 Class.forName(DRIVER);
                 conn = DriverManager.getConnection(URL, USER, SENHA);
             } catch (SQLException ex) {
-                throw new ErroSistema("Não foi possível conectar ao BD", ex);
+                throw new TratarErros("Não foi possível conectar ao BD", ex);
             } catch (ClassNotFoundException ex) {
-                throw new ErroSistema("Driver não encontrado", ex);
+                throw new TratarErros("Driver não encontrado", ex);
             }
         }
         return conn;
     }
 
     
-    public static void desconectar() throws ErroSistema {
+    public static void desconectar() throws TratarErros {
         if (conn == null) {
             try {
                 conn.close();
                 conn = null;
             } catch (SQLException ex) {
-                throw new ErroSistema("Erro ao desconectar o BD", ex);
+                throw new TratarErros("Erro ao desconectar o BD", ex);
             }
         }
     }

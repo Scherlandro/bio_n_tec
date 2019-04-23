@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+
+
+
+    <h:form id="formPedido">
+        <p:growl id="growl" showDetail="true" />
+        <p:panel id="empresa" header="Informações do Fornecedor">
+            <p:messages id="msg" />
+            <h:inputHidden value="#{clienteBean.clientEntity.id_cliente}" />
+            <h:panelGrid columns="2">
+                <h:panelGroup>
+                    <p:selectOneMenu id="fornecedor" required="true"
+                                     requiredMessage="Fornecedor obrigatório"
+                                     value="#{clienteBean.clientEntity.nome_cliente}" styleClass="combo">
+                        <f:selectItem itemValue="" itemLabel="Selecione..." />
+                        <f:selectItems value="#{clienteBean.clientEntity.nome_cliente}" />
+                        <f:ajax execute="fornecedor" render="empresa" event="change"
+                                listener="#{clienteBean.listarClientes()}"></f:ajax>
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:inputText id="contrato" readonly="true" required="true"
+                                 requiredMessage="Nº do contrato obrigatório" size="20"
+                                 maxlength="20" value="#{clienteBean.clientEntity.inscricaoest}" />
+                </h:panelGroup>
+            </h:panelGrid>
+
+        </p:panel>
+        <br />
+        <!--https://www.guj.com.br/t/p-dialog-primefaces/192867/4 -->
+
+    </h:form>
+
+    <h:form>
+
+        <p:fragment>
+            <p:autoUpdate />
+            <h:panelGrid columns="4" cellpadding="5">
+                <p:outputLabel for="txt" value="Escreva um texto qualquer:" />
+                <p:inputText id="txt" value="#{theActionBean.tag}" />
+                <p:commandButton value="Submit"/>
+                <h:outputText value="#{theActionBean.tag}"   />
+            </h:panelGrid>
+        </p:fragment>
+    </h:form>
+
+
+    <!--https://www.primefaces.org/showcase/ui/ajax/fragment.xhtml  -->
+
+    <!-- https://www.logicbig.com/tutorials/misc/primefaces/pick-list.html -->
+
+    <!-- https://www.youtube.com/watch?v=4uxVKdH9UVA    -->
+    <h:form>
+        <h:panelGrid  columns="4" >
+            <p:pickList value="#{funcionarioBean.dualListF}" var="func" 
+                        itemLabel="#{func.nome_funcionario}" itemValue="#{func.nome_funcionario}">
+                <f:facet name="sourceCaption">Lista de origem</f:facet>
+                <f:facet name="targetCaption">Selecionados</f:facet>
+            </p:pickList>
+            <p:commandButton id="idbutt" update="formMSG" value="Ver Listas " actionListener="#{funcionarioBean.showResult()}" />
+
+            <p:panelGrid id="formMSG">
+                <p:messages id="messIndex" showDetail="true" closable="true"  style="font-size: small" /> 
+            </p:panelGrid> 
+
+            <h:panelGrid  id="display"  >
+                <h3>Lista de origem:</h3>
+                <ui:repeat value="#{funcionarioBean.funcList}" var="func">
+                    <h:outputText value="#{func.nome_funcionario} "/>
+                    <br/>
+                </ui:repeat>
+            </h:panelGrid>
+
+        </h:panelGrid>
+    </h:form>
+
+
+</ui:decorate>
