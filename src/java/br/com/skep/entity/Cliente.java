@@ -1,6 +1,7 @@
 package br.com.skep.entity;
 
-public class Cliente  {
+
+public class Cliente{
 
     private Integer id_cliente;
     private String nome_cliente;
@@ -8,16 +9,18 @@ public class Cliente  {
     private String pessoa;
     private String cpf;
     private String cnpj;
-    private String cep;
+    private String cep_cliente;
     private String tipoLogradouro;
     private String logradouro;
     private String numero;
+    private String complemento_cliente;
     private String bairro;
     private String cidade ;
     private String estado;
     private String telefone;
     private String celular;
     private String zap;
+    private String email;
 
     public Integer getId_cliente() {
         return id_cliente;
@@ -67,12 +70,12 @@ public class Cliente  {
         this.cnpj = cnpj;
     }
 
-    public String getCep() {
-        return cep;
+    public String getCep_cliente() {
+        return cep_cliente;
     }
 
-    public void setCep(String cep) {
-        this.cep = cep;
+    public void setCep_cliente(String cep_cliente) {
+        this.cep_cliente = cep_cliente;
     }
 
     public String getTipoLogradouro() {
@@ -97,6 +100,14 @@ public class Cliente  {
 
     public void setNumero(String numero) {
         this.numero = numero;
+    }
+
+    public String getComplemento_cliente() {
+        return complemento_cliente;
+    }
+
+    public void setComplemento_cliente(String complemento_cliente) {
+        this.complemento_cliente = complemento_cliente;
     }
 
     public String getBairro() {
@@ -147,5 +158,16 @@ public class Cliente  {
         this.zap = zap;
     }
 
+   
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
     
+   
 }

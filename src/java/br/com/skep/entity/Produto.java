@@ -1,8 +1,10 @@
 package br.com.skep.entity;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class Produto {
+public class Produto  implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Integer id_produto;
     private String cod_produto;
@@ -12,7 +14,12 @@ public class Produto {
     private Double percentual;
     private Double valor_venda;
     private Integer quantidade_estoque;
+    
+    private String inventoryStatus = "INSTOCK";
 
+    private String imagemProd1 = "https://comeraprender.com.br/wp-content/uploads/2019/07/shutterstock_348902039-1-1531x860.jpg";
+    private String imagemProd2 = "/resources/images/clone_old_TG.png";
+    
     public Integer getId_produto() {
         return id_produto;
     }
@@ -76,6 +83,30 @@ public class Produto {
     public void setQuantidade_estoque(Integer quantidade_estoque) {
         this.quantidade_estoque = quantidade_estoque;
     }
-    
+
+    public String getInventoryStatus() {
+        return inventoryStatus;
+    }
+
+    public void setInventoryStatus(String inventoryStatus) {
+        this.inventoryStatus = inventoryStatus;
+    }
+
+    public String getImagemProd1() {
+        return imagemProd1;
+    }
+
+    public void setImagemProd1(String imagemProd1) {
+        this.imagemProd1 = imagemProd1;
+    }
+
+    public String getImagemProd2() {
+        return imagemProd2;
+    }
+
+    public void setImagemProd2(String imagemProd2) {
+        this.imagemProd2 = imagemProd2;
+    }
+   
     
 }

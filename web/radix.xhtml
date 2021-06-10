@@ -2,28 +2,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Sejam bem Vindos</title>
+        <!-- https://jqueryui.com/themeroller/ -->
+        <link type="text/css" rel="stylesheet" href="resources/theme.css"/>
+        <title>Bionaturatec</title>
     </h:head>
     <h:body>
-        <p:menubar>
-            <p:menuitem value="Home" url="radix.jsf"></p:menuitem>
-            <p:menuitem value="Usurios" url="radix.jsf"></p:menuitem>
-            <p:menuitem value="Clientes" url="radix.jsf"></p:menuitem>
-            <p:menuitem value="LogIn" url="login.jsf"></p:menuitem>
-        </p:menubar>
-        
-        <p:dock position="top" maxWidth="60">
+        <h:form id="formRadixPrincipal">
+            <p:menubar>
+                <p:menuitem value="Home" url="radix.jsf"></p:menuitem>
+                <p:menuitem value="Usurios" url="radix.jsf"></p:menuitem>
+                <p:menuitem value="Clientes" url="radix.jsf"></p:menuitem>
+                <p:menuitem value="Produtos" url="radix.jsf"></p:menuitem>
+                <p:menuitem value="Fornecedores" url="radix.jsf"></p:menuitem>
+                <p:menuitem value="LogIn" url="login.jsf"></p:menuitem>
+            </p:menubar>
+
+            <p:dock position="top" maxWidth="30">
                 <p:menuitem value="Home" icon="/resources/images/home.png" url="radix.jsf"/>
                 <p:menuitem value="Usuarios" icon="/resources/images/clone_old.png" url="radix.jsf"/>
                 <p:menuitem value="Clientes" icon="/resources/images/clientes.png" url="radix.jsf"/>
+                <p:menuitem value="Produtos" icon="/resources/images/r2_d2.png" url="radix.jsf"/>
+                <p:menuitem value="Fornecedores" icon="/resources/images/empilhadeira.png" url="radix.jsf"/>
                 <p:menuitem value="LogIn" icon="/resources/images/naboo_starfighter.png" url="login.jsf"/>
-                <p:menuitem value="Link" icon="/resources/images/darth_maul2.png" url="http://scherlandro.blogspot.com/"/>
-                <p:menuitem value="Link" icon="/resources/images/r2_d2.png" url="http://scherlandro.blogspot.com/"/>
+                <p:menuitem value="Blog" icon="/resources/images/midias_sociais.png" url="http://scherlandro.blogspot.com/"/>
             </p:dock>
-
-        <hr/>
-        <ui:insert></ui:insert>
+        </h:form>
+     
+           
+        <ui:insert>
+        </ui:insert>
     </h:body>
 </html>

@@ -2,113 +2,88 @@ package br.com.skep.dao;
 
 import br.com.skep.callBD.AcessoDB;
 import br.com.skep.entity.Usuario;
+import br.com.skep.util.HibernateUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 
 public class UsuarioDAO {
 
-    PreparedStatement pstm;
-    ResultSet rs;
-   private String consultarTodosUsuario = "Select *From Usuario";
-   private String consultarPerfil = "SELECT *FROM Usuario WHERE nome_usuario LIKE ?";
-   private String cadastrarUsuario = "Insert into Usuario (nome_usuario, email, senha, perfil)  Values (?, ?,?,?)";
-   private String alteraUsuario = "UPDATE Usuario Set nome_usuario = ?, email = ?, senha = ?, perfil = ? Where id_usuario = ?";
-   private String excluirUsuario = "Delete From Usuario Where id_usuario = ?";
-   private String logando = "SELECT *FROM Usuario WHERE nome_usuario LIKE ? and senha LIKE ?";
-
     public Boolean logarUsuario(String nome, String senha) {
+        PreparedStatement pstm;
+        ResultSet rs;
         try {
             Connection conDb = AcessoDB.getConexao();
-            pstm = conDb.prepareCall(logando);
+            pstm = conDb.prepareCall("SELECT *FROM usuario WHERE nome_usuario LIKE ? and senha LIKE ?");
             pstm.setString(1, nome);
             pstm.setString(2, senha);
             rs = pstm.executeQuery();
             if (rs.next()) {
                 return true;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public void salvar(Usuario usuario) {
-        try {
-            Connection conDb = AcessoDB.getConexao();
-            if (usuario.getId_usuario() == null) {
-                pstm = conDb.prepareCall(cadastrarUsuario);
-            } else {
-                pstm = conDb.prepareCall(alteraUsuario);
-                pstm.setInt(5, usuario.getId_usuario());
-            }
-            pstm.setString(1, usuario.getNome_usuario());
-            pstm.setString(2, usuario.getEmail());
-            pstm.setString(3, usuario.getSenha());
-            pstm.setString(4, usuario.getPerfil());            
-            pstm.executeUpdate();
-            AcessoDB.desconectar();
+     public boolean validate(String nome, String senha) {
 
+        Usuario user  = null;
+        try{
+             Session session = HibernateUtil.getSessionFactory().openSession(); 
+            session.beginTransaction();
+            user = (Usuario) session.createQuery("FROM Usuario u WHERE u.nomeUsuario = :nomeUsuario").setParameter("nomeUsuario", nome).uniqueResult();
+            if (user != null && user.getSenha().equals(senha)) {
+                return true;
+            }
+                session.getTransaction().commit();
+                session.close();
+                session.clear();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
-    public List<Usuario> consultarPerfil(Integer id) {
-
+    public void salvar(Usuario user) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            Connection conDb = AcessoDB.getConexao();
-            pstm = conDb.prepareStatement(consultarPerfil);
-            pstm.setInt(5, id);
-            rs = pstm.executeQuery();
-            List<Usuario> usuario = new ArrayList();
-            while (rs.next()) {
-                Usuario userB = new Usuario();
-                userB.setPerfil(rs.getString("perfil"));
-                usuario.add(userB);
+            if (user.getIdUsuario() != null) {
+                session.beginTransaction();
+                session.merge(user);
+                session.getTransaction().commit();
+           //     session.close();
+           //     session.clear();
+            } else {
+                session.beginTransaction();
+                session.persist(user);
+                session.getTransaction().commit();
+          //      session.close();
+         //       session.clear();
             }
-            return usuario;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
         }
     }
 
     public List<Usuario> listarTodosUsuarios() {
-        try {
-            Connection conDb = AcessoDB.getConexao();
-            pstm = conDb.prepareStatement(consultarTodosUsuario);
-            rs = pstm.executeQuery();
-            List<Usuario> usuario = new ArrayList();
-            while (rs.next()) {
-                Usuario userB = new Usuario();
-                userB.setId_usuario(rs.getInt("id_usuario"));
-                userB.setNome_usuario(rs.getString("nome_usuario"));
-                userB.setEmail(rs.getString("email"));
-                userB.setSenha(rs.getString("senha"));
-                userB.setPerfil(rs.getString("perfil"));
-                usuario.add(userB);
-            }
-            return usuario;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        List<Usuario> listUser;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        listUser = session.getNamedQuery("Usuario.findAll").list();
+        //session.close();
+        return listUser;
     }
 
-    public void excluirUsuario(int id_usuario) {
-        try {
-            Connection conDb = AcessoDB.getConexao();
-            pstm = conDb.prepareStatement(excluirUsuario);
-            pstm.setInt(1, id_usuario);
-            pstm.executeUpdate();
-            AcessoDB.desconectar();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void remover(Usuario user) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(user);
+        session.getTransaction().commit();
+     //   session.close();
+     //   session.clear();
     }
-
 }

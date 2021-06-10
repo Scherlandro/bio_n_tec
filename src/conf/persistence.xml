@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="BionaturatecPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>br.com.skep.entity.Produto_1</class>
+    <class>br.com.skep.entity.Vendas_1</class>
+    <class>br.com.skep.entity.Dizimos</class>
+    <class>br.com.skep.entity.Fornecedor_1</class>
+    <class>br.com.skep.entity.Excedentes</class>
+    <class>br.com.skep.entity.FolhaDePagamento</class>
+    <class>br.com.skep.entity.Cliente_1</class>
+    <class>br.com.skep.entity.Auditoria</class>
+    <class>br.com.skep.entity.Funcionario_1</class>
+    <class>br.com.skep.entity.Itensdavenda</class>
+    <class>br.com.skep.entity.Entregas</class>
+    <class>br.com.skep.entity.Usuario</class>
+    <class>br.com.skep.entity.Marca</class>
+    <class>br.com.skep.entity.Modelo</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/bionaturatec?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="84505050"/>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+    </properties>
+  </persistence-unit>
+</persistence>

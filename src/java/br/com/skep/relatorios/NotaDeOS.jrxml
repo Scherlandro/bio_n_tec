@@ -1,0 +1,970 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="42074030-f3d1-45f0-aa9d-6df1689d787f">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#8FAFCC">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#CFDBE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="SubAtendimento" uuid="41fbdb81-35b9-43d2-9803-4931c6160d60">
+		<parameter name="servicos.id_serv" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT
+     objeto.`id_subAt` AS objeto_id_subAt,
+     objeto.`fk_id_serv` AS objeto_fk_id_serv,
+     objeto.`corDoObjeto` AS objeto_corDoObjeto,
+     objeto.`obs` AS objeto_obs,
+     objeto.`nome_objeto` AS objeto_nome_objeto,
+     objeto.`placa` AS objeto_placa,
+     objeto.`id_Subfuncionario` AS objeto_id_Subfuncionario,
+     objeto.`objeto_somado` AS objeto_objeto_somado,
+     servicos.`id_serv` AS servicos_id_serv
+FROM
+     `servicos` servicos INNER JOIN `SubAtendimento` objeto ON servicos.`id_serv` = objeto.`fk_id_serv`
+WHERE
+     objeto.`fk_id_serv` = $P{servicos.id_serv}]]>
+		</queryString>
+		<field name="objeto_id_subAt" class="java.lang.Integer"/>
+		<field name="objeto_fk_id_serv" class="java.lang.Integer"/>
+		<field name="objeto_corDoObjeto" class="java.lang.String"/>
+		<field name="objeto_obs" class="java.lang.String"/>
+		<field name="objeto_nome_objeto" class="java.lang.String"/>
+		<field name="objeto_placa" class="java.lang.String"/>
+		<field name="objeto_id_Subfuncionario" class="java.lang.Integer"/>
+		<field name="objeto_objeto_somado" class="java.lang.Double"/>
+		<field name="servicos_id_serv" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="ItensDoObjeto" uuid="566aad70-31dc-4935-be68-0990194db06c">
+		<parameter name="servicos.id_serv" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT
+     objeto.`fk_id_serv` AS objeto_fk_id_serv,
+     itens_os.`cod_produto` AS itens_cod_produto,
+     itens_os.`fk_id_subAt` AS itens_fk_id_subAt,
+     produto.`nome_produto` AS produto_nome_produto,
+     itens_os.`qtd_vendidas` AS itens_os_qtd_vendidas,
+     itens_os.`soma_valor` AS itens_os_soma_valor
+FROM
+     `itens_os` itens_os INNER JOIN `subatendimento` objeto ON itens_os.`fk_id_subAt` = objeto.`id_subAt`
+     INNER JOIN `servicos` servicos ON objeto.`fk_id_serv` = servicos.`id_serv`
+     INNER JOIN `produto` produto ON itens_os.`cod_produto` = produto.`cod_produto`
+WHERE
+     servicos.`id_serv` = $P{servicos.id_serv}]]>
+		</queryString>
+		<field name="objeto_fk_id_serv" class="java.lang.Integer"/>
+		<field name="itens_cod_produto" class="java.lang.String"/>
+		<field name="itens_fk_id_subAt" class="java.lang.Integer"/>
+		<field name="produto_nome_produto" class="java.lang.String"/>
+		<field name="itens_os_qtd_vendidas" class="java.lang.Integer"/>
+		<field name="itens_os_soma_valor" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="servicos.id_serv" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     servicos.`id_serv` AS servicos_id_serv,
+     servicos.`nome_cliente` AS servicos_nome_cliente,
+     servicos.`dtcadastro` AS servicos_dtcadastro,
+     servicos.`ultimadata` AS servicos_ultimadata,
+     servicos.`situacaoServico` AS servicos_situacaoServico,
+     servicos.`nomeDoRecebedor` AS servicos_nomeDoRecebedor,
+     servicos.`subtotal` AS servicos_subtotal,
+     servicos.`desconto` AS servicos_desconto,
+     servicos.`por_conta` AS servicos_por_conta,
+     servicos.`totalgeral` AS servicos_totalgeral,
+     servicos.`total_restante` AS servicos_total_restante,
+     funcionario.`nome_funcionario` AS funcionario_nome_funcionario,
+     cliente.`endereco_cliente` AS cliente_endereco_cliente,
+     cliente.`n_residencia_cliente` AS cliente_n_residencia_cliente,
+     cliente.`complemento_cliente` AS cliente_complemento_cliente,
+     cliente.`bairro_cliente` AS cliente_bairro_cliente,
+     cliente.`cidade_cliente` AS cliente_cidade_cliente,
+     cliente.`telefone1_cliente` AS cliente_telefone1_cliente,
+     cliente.`telefone2_cliente` AS cliente_telefone2_cliente	
+FROM
+     `servicos` servicos 
+INNER JOIN `cliente` cliente 
+ON servicos.`id_cliente` = cliente.`id_cliente`
+INNER JOIN `funcionario` funcionario
+ON servicos.`id_funcionario` = funcionario.`id_funcionario`
+and servicos.`id_serv`= $P{servicos.id_serv}]]>
+	</queryString>
+	<field name="servicos_id_serv" class="java.lang.Integer"/>
+	<field name="servicos_nome_cliente" class="java.lang.String"/>
+	<field name="servicos_dtcadastro" class="java.math.BigDecimal"/>
+	<field name="servicos_ultimadata" class="java.lang.String"/>
+	<field name="servicos_situacaoServico" class="java.lang.String"/>
+	<field name="servicos_nomeDoRecebedor" class="java.lang.String"/>
+	<field name="servicos_subtotal" class="java.lang.Double"/>
+	<field name="servicos_desconto" class="java.lang.Double"/>
+	<field name="servicos_por_conta" class="java.lang.Double"/>
+	<field name="servicos_totalgeral" class="java.lang.Double"/>
+	<field name="servicos_total_restante" class="java.lang.Double"/>
+	<field name="funcionario_nome_funcionario" class="java.lang.String"/>
+	<field name="cliente_endereco_cliente" class="java.lang.String"/>
+	<field name="cliente_n_residencia_cliente" class="java.lang.String"/>
+	<field name="cliente_complemento_cliente" class="java.lang.String"/>
+	<field name="cliente_bairro_cliente" class="java.lang.String"/>
+	<field name="cliente_cidade_cliente" class="java.lang.String"/>
+	<field name="cliente_telefone1_cliente" class="java.lang.String"/>
+	<field name="cliente_telefone2_cliente" class="java.lang.String"/>
+	<variable name="servicos_cod_ap_1" class="java.lang.Integer" resetType="Page" calculation="First">
+		<variableExpression><![CDATA[$F{servicos_id_serv}]]></variableExpression>
+	</variable>
+	<variable name="servicos_nome_cliente_1" class="java.lang.Integer" resetType="Page" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{servicos_nome_cliente}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="1" width="325" height="19" forecolor="#000000" backcolor="#FFFFFF" uuid="d312555b-bf75-4248-9240-5c861556e5db"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Assistência Técnica em Geral ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="6" width="100" height="15" uuid="5847d67a-c332-4168-8b0d-35f6541700af"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ordem de Serviço Nº]]></text>
+			</staticText>
+			<textField evaluationTime="Page">
+				<reportElement x="453" y="6" width="100" height="15" uuid="c1bc940a-1c80-4bfa-b368-fcedb7f903e9"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicos_id_serv}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="63" splitType="Stretch">
+			<textField>
+				<reportElement x="36" y="1" width="136" height="19" uuid="88ab8e5a-dcf3-48c0-be3b-0ab97369824e"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicos_nome_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="36" y="20" width="136" height="20" uuid="f6f9557d-9066-4d75-817b-100954e37f6e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente_endereco_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="197" y="20" width="34" height="20" uuid="d535c911-ce03-475c-bdd0-ab77a0f10e24"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente_n_residencia_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="263" y="20" width="92" height="20" uuid="3e042c4f-54fd-4de3-91c5-7c04d22db7cd"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente_complemento_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="47" y="40" width="189" height="20" uuid="3e8429b1-24fa-4e47-abb9-56f205340457"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente_bairro_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="272" y="40" width="120" height="20" uuid="1e427e68-c5a8-41e1-8b3e-43445d03f883"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente_cidade_cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="172" y="20" width="25" height="20" uuid="02327b45-b5ba-4974-bc27-27cf3b605bd0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="197" y="1" width="66" height="20" uuid="6c530109-074d-4c30-bf63-26df08467972"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente_telefone1_cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="173" y="1" width="24" height="20" uuid="e647ff26-63da-4a2c-8901-8b2f24fe3fa7"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fone]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="47" height="20" uuid="4d7a724f-e7ef-47a6-9c13-d5a1259135b3"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Bairro:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="235" y="40" width="37" height="20" uuid="31d0dee0-35cf-4839-a41f-f6b756cc6d70"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cidade:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="231" y="20" width="32" height="20" uuid="831dc86b-a43c-4b56-9e41-714e7d5af4f1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comp:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="1" width="36" height="20" uuid="235adb55-bbb2-45b9-b4e7-0805935568ba"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="36" height="19" uuid="4ab85c7d-8152-4a0b-862c-4f7d372e59e6"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Rua:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="428" y="21" width="126" height="19" uuid="504f7556-8019-4d20-b358-4bab1cce6f0d"/>
+				<box>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{funcionario_nome_funcionario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="376" y="22" width="51" height="17" uuid="5a4df839-9b8c-4f45-9adb-ea227fbf09be"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Atendente:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="287" y="1" width="138" height="20" uuid="2705e33d-8c59-48d2-a00e-1c6cb1378eb1"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente_telefone2_cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="263" y="1" width="24" height="20" uuid="ec8992b5-aad5-424a-b6c2-a4bb09744760"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cel:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="554" y="40" width="0" height="20" uuid="6176abe4-8aa5-4262-a274-ff382c091897"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="392" y="40" width="52" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="31c629e1-161f-4750-b9c0-403be4038d51"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Georgia" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Situação]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="444" y="40" width="110" height="20" uuid="95dba692-32f4-46e0-961f-953e2a2a2e61"/>
+				<box>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicos_situacaoServico}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="425" y="1" width="44" height="20" uuid="ec559a14-508c-453a-9c31-4ee36d1ed1af"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entrada]]></text>
+			</staticText>
+			<textField evaluationTime="Page" pattern="¤ #,##0.00">
+				<reportElement x="469" y="1" width="85" height="20" uuid="fb9d2861-80bf-42dd-9102-36f00c11876f"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{servicos_dtcadastro})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="14" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="0" y="0" width="553" height="10" uuid="7f4a773b-5971-4281-ac08-63ee2fef9f07"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="SubAtendimento" uuid="cecaad7e-d757-4644-97fd-4d430be8bb67">
+						<datasetParameter name="servicos.id_serv">
+							<datasetParameterExpression><![CDATA[$F{servicos_id_serv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="46" uuid="7d0f8f04-34ec-419b-a328-8afce1adbb89">
+						<jr:columnHeader height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="46" height="14" uuid="9f3d1ae8-bb38-4022-b844-fde9b273487e"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Atendimento]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="17" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="46" height="15" uuid="42db3fe5-8c05-40a6-b8de-0a6f16c96ec0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{objeto_id_subAt}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="84" uuid="106e683c-1266-4b0e-8efd-206718d2f498">
+						<jr:columnHeader height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="84" height="14" uuid="b88ce739-9ab2-40f5-8855-9936b248c617"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Descrição]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="17" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="84" height="15" uuid="9cf3f224-4625-4716-ae7b-049dc270bd4a"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{objeto_nome_objeto}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="6c87b0d4-cdff-4f40-83e5-56337abe2d72">
+						<jr:columnHeader height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="14" uuid="8ca1e08e-054d-4db6-9336-ae06b4898455"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Cor]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="17" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="15" uuid="724b2adb-6c99-4149-8155-c01ddefd15d0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{objeto_corDoObjeto}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="246" uuid="abe032c7-5698-4d2c-a6f9-c1576538956f">
+						<jr:columnHeader height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="246" height="14" uuid="d8459b30-7cef-4ee2-8c15-58731140e371"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Observações reclamadas]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="17" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="246" height="15" uuid="41cd6303-c875-4d40-926b-7f6a237e8b59"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{objeto_obs}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="f41b4c95-48fc-4fbc-864c-e2a665d17857">
+						<jr:columnHeader height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="57" height="14" uuid="f74ae6d7-f54c-44ea-aa24-8bf4da26039e"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<text><![CDATA[Placa]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="17" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="15" uuid="13c3a71d-145c-4a6a-a8d7-6a3c578dd112"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{objeto_placa}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="28" uuid="6c3c6a1f-0bf4-4fcf-97ab-f899724c73b0">
+						<jr:columnHeader height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="28" height="14" uuid="b9a0ce8a-4d29-409e-8573-1620d9792983"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<text><![CDATA[IdFunc]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="17" rowSpan="1">
+							<textField>
+								<reportElement x="1" y="0" width="27" height="15" uuid="ddd7bdfd-64d6-4c26-9fb0-c8bd22266dd2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{objeto_id_Subfuncionario}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="44" uuid="bb36217e-e08a-44b0-86e0-4ca5f01f5779">
+						<jr:columnHeader height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="43" height="14" uuid="83e87aa2-b48a-4aae-8335-eea5ae1cf46c"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[SmParcial]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="17" rowSpan="1">
+							<textField pattern="###0.00;(###0.00)">
+								<reportElement x="0" y="0" width="44" height="15" uuid="627d0c66-f3a9-42aa-b201-bcd5c9a7e041"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{objeto_objeto_somado}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23">
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="1" y="4" width="354" height="10" uuid="f22ea441-3fa8-4b67-9982-2f9405452580"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="ItensDoObjeto" uuid="c66b5023-399e-4e52-b1b9-ea327e2e659a">
+						<datasetParameter name="servicos.id_serv">
+							<datasetParameterExpression><![CDATA[$F{servicos_id_serv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="44" uuid="ae40a34f-95b5-4389-886d-8a7181070c77">
+						<jr:columnHeader height="12" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="44" height="12" uuid="be66c2fe-f41f-4755-a6fc-e9105dfb1f4d"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Atend. Ref]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="44" height="20" uuid="104e64f1-05b9-4cdb-bb3e-91505eff8230"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{itens_fk_id_subAt}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="75" uuid="e8fa0ef6-c2b0-460b-ba8b-cb154da6cfc6">
+						<jr:columnHeader height="12" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="75" height="12" uuid="178fb9d0-85e3-4ff7-8110-59153da34a5d"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Cod Item]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="75" height="20" uuid="f9233868-2a9a-4bfc-beb7-ac97394a02e8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{itens_cod_produto}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="208" uuid="fed840e5-3b15-42ca-ab57-cc0543a67ddd">
+						<jr:columnHeader height="12" rowSpan="1">
+							<staticText>
+								<reportElement x="1" y="0" width="207" height="12" uuid="dd24d481-370e-4b1e-b552-d15eee25b071"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Descrição do item]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="208" height="20" uuid="3f912194-27fa-4083-8430-4010af940967"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{produto_nome_produto}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="25" uuid="b405040a-a9b4-48c7-a3ae-c25ef722add2">
+						<jr:columnHeader height="12" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="25" height="12" uuid="708e14d2-678b-43a3-852d-33e13f82651b"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Qtd]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="25" height="20" uuid="5bd897a7-ef55-458d-a361-44d68fdfea1a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{itens_os_qtd_vendidas}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="42" uuid="86dd6d1f-468a-4d30-9e7e-a2a4e447a58f">
+						<jr:columnHeader height="12" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="41" height="12" uuid="f4fa66df-d11c-46d8-af81-1e3c49bc8e97"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Sm Itens]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField pattern="###0.00;(###0.00)">
+								<reportElement x="0" y="0" width="41" height="20" uuid="b5c28f0b-eed6-493d-8a8a-0285d847705e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{itens_os_soma_valor}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="109">
+			<staticText>
+				<reportElement x="229" y="70" width="207" height="12" uuid="9099b9a8-91e1-4574-82ef-ea2270940086"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[   Declaro estar de acordo com as informações:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="133" y="90" width="90" height="12" uuid="6a62dc1b-169d-48ce-ba1d-19e63fb8c1c2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ass. do Recebedor:]]></text>
+			</staticText>
+			<textField evaluationTime="Page">
+				<reportElement x="446" y="85" width="108" height="20" uuid="1f9192fa-0658-4225-b501-8e6d1e0e79a2"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicos_ultimadata}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="227" y="105" width="209" height="1" uuid="b2f70b30-8830-4782-84c4-ae5010b23b67"/>
+			</line>
+			<line>
+				<reportElement x="0" y="81" width="227" height="1" uuid="44ef86a8-8703-48ef-8eeb-dc47e8da41bf"/>
+			</line>
+			<staticText>
+				<reportElement x="446" y="73" width="108" height="12" uuid="0145b968-f943-42b5-aafc-ed8c137e7bdf"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Saída]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="###0.00;(###0.00)">
+				<reportElement x="485" y="13" width="69" height="13" uuid="11d96280-17f8-4df5-a9fa-2cbe8b6f2623"/>
+				<box>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicos_por_conta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="446" y="39" width="39" height="13" forecolor="#000000" backcolor="#FFFFFF" uuid="4b28fe0f-6b07-45c0-9626-658e1f834502"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Georgia" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Geral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="446" y="0" width="39" height="13" forecolor="#000000" backcolor="#FFFFFF" uuid="2e404301-e712-489b-8151-7b4836a92afa"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Georgia" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Subtotal]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="###0.00;(###0.00)">
+				<reportElement x="485" y="39" width="69" height="13" uuid="c98e40d4-26f1-4ece-a0d5-992f00f707b2"/>
+				<box>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicos_totalgeral}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="446" y="52" width="39" height="13" forecolor="#000000" backcolor="#FFFFFF" uuid="36c21f57-808f-4031-bfcf-88cf0b5840ea"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Georgia" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Restante]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="###0.00;(###0.00)">
+				<reportElement x="485" y="0" width="69" height="13" uuid="cb7e47f0-5013-4059-8568-21e57eb50f03"/>
+				<box>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicos_subtotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="446" y="13" width="39" height="13" forecolor="#000000" backcolor="#FFFFFF" uuid="c9619bc2-d372-49cc-ad6f-998793177343"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Georgia" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Por Conta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="446" y="26" width="39" height="13" forecolor="#000000" backcolor="#FFFFFF" uuid="8d18b977-0533-41e3-b18b-9905d307acc2"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Georgia" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desconto]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="###0.00;(###0.00)">
+				<reportElement x="485" y="52" width="69" height="13" uuid="f95f28cf-6f4b-4f6c-80a3-00d5d6260fbe"/>
+				<box>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicos_total_restante}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0.00;(###0.00)">
+				<reportElement x="485" y="26" width="69" height="13" uuid="0d5b7b2f-3af5-4a67-861e-86ca08ad8fd0"/>
+				<box>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicos_desconto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="9" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="8" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="9" splitType="Stretch"/>
+	</summary>
+</jasperReport>

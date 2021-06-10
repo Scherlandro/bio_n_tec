@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:outputScript name="action.js" library="js"/>
+
+    <p:growl id="mensagemDeVendas"/>
+
+    <h:form id="formIntensDoCaixaRapido">  
+
+        <p:dataTable id="tbItensEscolhidos" value="#{itensBean.listaTodosItensDaVd()}" var="listaItensXML"  >
+
+            <p:column headerText="Id"  >
+                <h:outputText value="#{listaItensXML.id_itensVd}" />
+            </p:column>
+            <p:column headerText="Codigo"  >
+                <h:outputText value="#{listaItensXML.codProdutoItens}" />
+            </p:column>
+            <p:column headerText="Descrição" >
+                <h:outputText value="#{listaItensXML.descricaoDoIntem}"/>
+            </p:column>
+            <p:column headerText="Val Unit" >
+                <h:outputText value="#{listaItensXML.valorItem}">
+                    <f:convertNumber locale="pt_BR" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="QTD">
+                <h:outputText value="#{listaItensXML.qtdItem}" />
+            </p:column>
+            <p:column headerText="Val Parcial"  >
+                <h:outputText value="#{listaItensXML.valorParcial}">
+                    <f:convertNumber locale="pt_BR" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            <p:column  >
+                <p:commandButton  icon=" ui-icon-trash" title="Remover Item"
+                                  actionListener="#{itensBean.removerItem(listaItensXML)}" update=":formIntensDoCaixaRapido:tbItensEscolhidos">
+                </p:commandButton>                            
+            </p:column>
+            <p:columnGroup type="footer">
+                <p:row>
+                    <p:column  footerText="Codigo Venda :  #{vendaBean.vendEntity.cod_venda}" style="text-align:center"/>
+                    <p:column  footerText="Cliente:"  />                        
+                    <p:column footerText="#{vendaBean.vendEntity.nome_cliente}" />
+                    <p:column footerText="Qtd de Itens:  #{itensBean.quantidadeTotalDeItens()}" style="text-align:left"/>
+                    <p:column footerText=" Total: #{itensBean.SomarItens()}" style="text-align:left" />
+                </p:row>
+            </p:columnGroup>
+
+        </p:dataTable>  
+
+
+        <p:panelGrid id="pngEditarVenda" columns="12" style="width: 100%" >
+            <div class="ui-inputgroup"  >
+                <span class="ui-inputgroup-addon">Código <i class="pi pi-user"></i></span>
+                <p:inputText id="inputIdCaixaRapido" placeholder="Codigo da Venda" style="width: 90%"
+                             value="#{vendaBean.vendEntity.cod_venda}"  />
+            </div>
+
+            <div class="ui-inputgroup" >
+                <span class="ui-inputgroup-addon">Cliente<i class="pi pi-user"></i></span>
+                <p:inputText id="inputClente" placeholder="Nome do Cliente" style="width: 90%"
+                             value="#{vendaBean.vendEntity.nome_cliente}"/>
+            </div>
+            <div class="ui-inputgroup" >
+                <span class="ui-inputgroup-addon" > Data <i class="pi pi-user" ></i></span>
+                <p:inputText id="inputData" placeholder="Data"  style="width: 70%"
+                             value="#{vendaBean.vendEntity.dt_venda}"/>
+            </div>
+            <div class="ui-inputgroup" >
+                <span class="ui-inputgroup-addon"> Total Geral <i class="pi pi-user"> </i></span>
+                <p:inputText id="inputTotalGeral" placeholder="Total Geral" style="width: 70%" value="#{vendaBean.vendEntity.total_geral}"/>
+            </div>
+            <div class="ui-inputgroup" >
+                <span class="ui-inputgroup-addon">Pesquisa venda<i class="pi pi-user"></i></span>
+                <p:commandButton icon="ui-icon-search" title="Pesquisa venda"
+                                 oncomplete="PF('ListaDialogDeVendas').show()" />
+            </div>
+        </p:panelGrid>
+
+        <p:dialog id="fielVerVenda" modal="true" showEffect="fade" hideEffect="fade" widgetVar="ListaDialogDeVendas" >
+
+
+            <p:dataTable id="tbVendas" value="#{vendaBean.vendList}" var="listVend" emptyMessage="Nenhum registro encontrado."
+                         style="font-size: 14px;" paginator="true"  rows="5"  rowsPerPageTemplate="10,20,50" >
+
+
+                <p:column headerText="Código" style="width: min-content" >
+                    <h:outputText style="text-align: left;" value="#{listVend.cod_venda}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Cliente" style="width: 12%" filterBy="#{listVend.nome_cliente}" sortBy="#{listVend.nome_cliente}" >
+                    <h:outputText value="#{listVend.nome_cliente}" style="text-align: left;"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Operador" >
+                    <h:outputText value="#{listVend.nome_funcionario}"></h:outputText>
+                </p:column>
+                <p:column headerText="Data da venda">
+                    <h:outputText value="#{listVend.dt_venda}"></h:outputText>
+                </p:column>
+                <p:column headerText="Total Geral">
+                    <h:outputText value="#{listVend.total_geral}">
+                        <f:convertNumber currencySymbol="R$" type="currency"/>
+                        <f:convertNumber locale="pt_BR" minFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Formas de pagamento">
+                    <h:outputText value="#{listVend.forma_de_pagamento}"></h:outputText>
+                </p:column>
+                <p:column headerText="Número de parcelas">
+                    <h:outputText value="#{listVend.qtd_de_parcelas}"></h:outputText>
+                </p:column>
+                <p:column headerText="Up" style="width: 5%">
+                    <p:commandButton value="§" action="#{vendaBean.editar(listVend)}"
+                                     process="@this" update=":formIntensDoCaixaRapido:pngEditarVenda" onclick="dialog.hide()" />
+
+                </p:column>
+            </p:dataTable>
+        </p:dialog>
+
+
+    </h:form>
+
+
+</ui:decorate>
+

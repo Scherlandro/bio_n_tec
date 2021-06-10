@@ -8,7 +8,10 @@
              template="template.xhtml"
              xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-
+    <h:outputScript name="action.js" library="js"></h:outputScript>
+    <div>
+        Produtos
+    </div>
     <h:form id="formProduto">
         <p:panelGrid columns="2" >
             <p:panelGrid id="idpnProduto" columns="2">
@@ -16,23 +19,25 @@
                 <p:inputText value="#{produtoBean.prodEntity.id_produto}" style="width: 20%" ></p:inputText>
                 <h:outputLabel value="Codigo do Produto"></h:outputLabel>
                 <p:inputText value="#{produtoBean.prodEntity.cod_produto}" style="width: 80%"  ></p:inputText>
-                <p:calendar widgetVar="calendarVar" value="#{calendarManagedBean.date}" size="5" style="width: 10%; ">Selecionar Data </p:calendar>
-                <p:inputText value="#{produtoBean.prodEntity.dt_cadastro}" style="width: 80%" ></p:inputText>
+
+                <p:calendar id="idCaledario" widgetVar="calendarVar" value="#{calendarManagedBean.date}"  size="5" style="width: 10%;">Selecionar Data </p:calendar>
+                <p:inputText id="dataEscolhida" value="#{produtoBean.prodEntity.dt_cadastro}" onclick ="selecionaData()" style="width: 80%" ></p:inputText>
+
                 <h:outputLabel value="Nome do Produto" style="font-weight:bold; padding-left: 5px; float: left;" ></h:outputLabel>
-                <p:inputText value="#{produtoBean.prodEntity.nome_produto}" ></p:inputText>
+                <p:inputText value="#{produtoBean.prodEntity.nome_produto}" style="width: 80%"  ></p:inputText>
                 <h:outputLabel value="Preço de compra"></h:outputLabel>
-                <p:inputText value="#{produtoBean.prodEntity.valor_compra}" style="width: 70%" ></p:inputText>
-                <h:outputLabel value="Percentual de lucro"></h:outputLabel>
-                <p:inputText value="#{produtoBean.prodEntity.percentual}" style="width: 70%" ></p:inputText>
-                <h:outputLabel value="Preço para venda"></h:outputLabel>
-                <p:inputText value="#{produtoBean.prodEntity.valor_venda}" style="width: 70%" ></p:inputText>
+                <p:inputText id="idValc" value="#{produtoBean.prodEntity.valor_compra}" style="width: 35%" ></p:inputText>
+                <h:outputLabel value="Margem de lucro"></h:outputLabel>
+                <p:inputText id="idPerc" value="#{produtoBean.prodEntity.percentual}" style="width: 35%" >Margem de lucro </p:inputText>
+                <p:commandButton id="fazerCalc" icon="ui-icon-calculator" value="Calcular" onclick="somarValores()" style="margin-top:5px" />
+                <p:inputText id="resulPreVend" value="#{produtoBean.prodEntity.valor_venda}" style="width: 35%">Preço para venda </p:inputText>
                 <h:outputLabel value="Estoque"></h:outputLabel>
                 <p:inputText value="#{produtoBean.prodEntity.quantidade_estoque}" style="width: 50%" ></p:inputText>
-
             </p:panelGrid>
+
             <h:panelGrid  columns="4" >
                 <p:pickList value="#{produtoBean.dualListP}" var="prod"  responsive="true"
-                             showCheckbox="true" showSourceFilter="true" showTargetFilter="true" 
+                            showCheckbox="true" showSourceFilter="true" showTargetFilter="true" 
                             itemLabel="#{prod.nome_produto}" itemValue="#{prod.nome_produto}">
                     <f:facet name="sourceCaption">Lista de origem</f:facet>
                     <f:facet name="targetCaption">Selecionados</f:facet>
@@ -43,73 +48,60 @@
                         <h:outputText value="#{prod.nome_produto}" />
                     </p:column>
                 </p:pickList>
-   
-                   <p:commandButton id="pojoSubmit" value="Submit" update="displayLista"
+
+                <p:commandButton id="pojoSubmit" value="Ver" update="displayLista"
                                  oncomplete="PF('ListaDialog').show()" style="margin-top:5px" />
 
-                <p:dialog modal="true" showEffect="fade" hideEffect="fade" widgetVar="ListaDialog">
+                <p:dialog header="Lista de selecionados:" modal="true" 
+                          showEffect="fade" hideEffect="fade" widgetVar="ListaDialog">
                     <h:panelGrid id="displayLista" columns="2">
-                        <h:outputText value="Restante: " style="font-weight:bold" />
-                        <ui:repeat value="#{produtoBean.prodList}" var="prod">
-                                <h:outputText value="#{prod.nome_produto}" style="margin-right:5px" />
-                            </ui:repeat>
-                            <h:outputText value="Selecionados: " style="font-weight:bold" />
-                            
-                        <ui:repeat value="#{produtoBean.prodList}" var="prod">
-                                <h:outputText value="#{prod.nome_produto}" style="margin-right:5px" />
-                            </ui:repeat>
+                        <ui:repeat value="#{produtoBean.dualListP.target}" var="prod">
+                            <h:outputText value="#{prod}" style="margin-right:5px" />
+                            <br/>
+                        </ui:repeat>
                     </h:panelGrid>
                 </p:dialog>
-       
+
             </h:panelGrid>
+
         </p:panelGrid>
 
-        <p:panelGrid id="formMSG">
-            <p:messages id="messIndex" showDetail="true" closable="true"  style="font-size: small" /> 
-        </p:panelGrid> 
+        <p:commandButton icon="ui-icon-disk" title="Gravar" actionListener="#{produtoBean.adicionar()}" update="formProduto:idpnProduto" action="#{mensagens.msgDeGravacao()}"></p:commandButton>
+        <p:commandButton icon="ui-icon-search" title="Pesquisar" actionListener="#{produtoBean.listarProdutos()}" update="tbProduto" action="#{mensagens.msgAdvertir()}"></p:commandButton>
 
-        <p:commandButton value="Salvar" actionListener="#{produtoBean.adicionar()}" update="formProduto:idpnProduto" action="#{mensagens.msgDeGravacao()}"></p:commandButton>
-        <p:commandButton value="Pesquisar" actionListener="#{produtoBean.listarUsurio()}" update="tbProduto" action="#{mensagens.msgAdvertir()}"></p:commandButton>
-
-        <p:dataTable style=" font-weight: inherit; font-size:  12px;" paginator="true"
-                     rows="5"
-                     id="tbProduto" value="#{produtoBean.prodList}" var="listProd" >
+        <p:dataTable id="tbProduto" style=" font-weight: inherit; font-size:  12px;" paginator="true"
+                     rows="5" value="#{produtoBean.prodList}" var="listProdXML" >
 
             <p:column headerText="Codigo" style="width: 4%" >
-                <h:outputText value="#{listProd.cod_produto}"/>
+                <h:outputText value="#{listProdXML.cod_produto}"/>
             </p:column>
             <p:column headerText="Data de Cadastro" style="width: 8%" >
-                <h:outputText value="#{listProd.dt_cadastro}"></h:outputText>
+                <h:outputText value="#{listProdXML.dt_cadastro}"></h:outputText>
             </p:column>
-            <p:column headerText="Nome" sortBy="#{prod.nome_produto}" style="width: 15%">
-                <h:outputText value="#{listProd.nome_produto}" style="text-align: center;"></h:outputText>
+            <p:column headerText="Nome" style="width: 15%">
+                <h:outputText value="#{listProdXML.nome_produto}" style="text-align: center;"></h:outputText>
             </p:column>
             <p:column headerText="Preço Venda" style="width: 6%" >
-                <h:outputText value="#{listProd.valor_venda}"></h:outputText>
+                <h:outputText value="#{listProdXML.valor_venda}"></h:outputText>
             </p:column>
             <p:column headerText="Percentual" style="width: 6%">
-                <h:outputText value="#{listProd.percentual}"></h:outputText>
+                <h:outputText value="#{listProdXML.percentual}"></h:outputText>
             </p:column>
             <p:column headerText="Preço Compra" style="width: 6%" >
-                <h:outputText value="#{listProd.valor_compra}"></h:outputText>
+                <h:outputText value="#{listProdXML.valor_compra}"></h:outputText>
             </p:column>
             <p:column headerText="Estoque" style="width: 5%">
-                <h:outputText value="#{listProd.quantidade_estoque}"></h:outputText>
+                <h:outputText value="#{listProdXML.quantidade_estoque}"></h:outputText>
             </p:column>
-            <p:column style="width: 8%">
-                <p:commandButton value="Editar" actionListener="#{produtoBean.editar(listProd)}" update="formProduto:idpnProduto"></p:commandButton>
+            <p:column style="width: 3%">
+                <p:commandButton icon="ui-icon-pencil" title="Editar" actionListener="#{produtoBean.editar(listProdXML)}" update="formProduto:idpnProduto"></p:commandButton>
             </p:column>
-            <p:column style="width: 8%">
-                <p:commandButton value="Remover" actionListener="#{produtoBean.remover(listProd)}" action="#{mensagens.msgDeExcluir()}" update="formProduto:idpnProduto"></p:commandButton>
+            <p:column style="width: 3%">
+                <p:commandButton icon="ui-icon-trash" title="Excluir" actionListener="#{produtoBean.remover(listProdXML)}" action="#{mensagens.msgDeExcluir()}" update="formProduto:idpnProduto"></p:commandButton>
             </p:column>
         </p:dataTable>
+             
 
     </h:form>
-
-    <h:form id="formMSG2">
-         <p:growl id="msg" showDetail="true" escape="false" />
-
-    </h:form>
-
 
 </ui:decorate>

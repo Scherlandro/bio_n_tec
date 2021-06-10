@@ -4,39 +4,69 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-      <script type="text/javascript">
-        function preback(){window.history.forward();}
-        setTimeout("preback()",0);
-        window.onunload=function(){null;};
-    </script>
-        
+    <script type="text/javascript">
+        function preback() {
+            window.history.forward();
+        }
+        setTimeout("preback()", 0);
+        window.onunload = function () {
+            null;
+        };
+    </script>        
     <h:head>
-        <title>SkepCorp</title>
+        <link type="text/css" rel="stylesheet" href="resources/theme.css"/>
+        <title>Bionaturatec</title>
     </h:head>
     <h:body>
-        <hl> Central SkepCorp </hl>
-        <p:menubar>
-            <p:menuitem value="Home" url="index.jsf"></p:menuitem>
-            <p:menuitem value="Usurios" url="usuarios.jsf"></p:menuitem>
-            <p:menuitem value="Clientes" url="cliente.jsf"></p:menuitem>
-            <p:menuitem value="Funcionarios" url="funcionario.jsf"></p:menuitem>
-            <p:menuitem value="Produtos" url="produto.jsf"></p:menuitem>
-            <p:menuitem value="LogIn" url="login.jsf"></p:menuitem>
-            <p:separator/>
-            <p:menuitem value="Sair" url="radix.jsf" update="#{loginBean.logout()}"></p:menuitem>
-        </p:menubar>
         
-            <p:dock position="top" maxWidth="60">
-                <p:menuitem value="Home" icon="/resources/images/home.png" url="index.jsf"/>
-                <p:menuitem value="Usuarios" icon="/resources/images/clone_old.png" url="usuarios.jsf"/>
-                <p:menuitem value="Clientes" icon="/resources/images/clientes.png" url="cliente.jsf"/>
-                <p:menuitem value="LogIn" icon="/resources/images/naboo_starfighter.png" url="login.jsf"/>
-                <p:menuitem value="Funcionarios" icon="/resources/images/darth_vader.png" url="funcionario.jsf"/>
-                <p:menuitem value="Produtos" icon="/resources/images/r2_d2.png" url="produto.jsf"/>
-                <p:menuitem value="Link" icon="/resources/images/darth_maul2.png" url="http://scherlandro.blogspot.com/"/>
-            </p:dock>
-        
-        <p:tooltip />
+    <h:form>
+              <p:megaMenu orientation="horizontal" autoDisplay="false">
+                   <p:submenu label="Home" icon="/resources/images/home.png" > 
+                    <p:column>
+                        <p:submenu label="Home" >                        
+                            <p:menuitem value="Home" url="index.jsf"/>
+                        </p:submenu>
+                    </p:column>
+                </p:submenu>
+                
+                <p:submenu label="Cadastros" icon="pi pi-fw pi-video">
+                    <p:column>
+                        <p:submenu label="Cadastros Pessoas">
+                            <p:menuitem value="Usurios" url="usuarios.jsf" />
+                            <p:menuitem value="Funcionarios" url="funcionario.jsf"/>
+                            <p:menuitem value="Clientes" url="cliente.jsf"/>
+                            <p:menuitem value="Fornecedores" url="fornecedor.jsf"/>
+                        </p:submenu>
+                    </p:column>
+                    <p:column>
+                        <p:submenu label="Cadastros Ativos">
+                            <p:menuitem value="Produtos" url="produto.jsf"/>
+                            <p:menuitem value="Marca" url="marcas.jsf" />
+                            <p:menuitem value="Modelos" />
+                        </p:submenu>
+                    </p:column>
+                </p:submenu>
+                <p:submenu label="Financeiro" icon="pi pi-fw pi-video" >                    
+                    <p:column>
+                        <p:submenu label="Finanças">
+                            <p:menuitem value="Vendas" url="vendas.jsf"/>
+                            <p:menuitem value="Caixa" url="vendaCaixa.jsf"/>
+                        </p:submenu>
+                    </p:column>
+                </p:submenu>
+                <p:submenu label="Logando" icon="pi pi-fw pi-video" >
+                    <p:column>
+                        <p:submenu label="Entradas e Saidas">
+                            <p:menuitem value="Sair"  action="#{autenticadorBean.logout()}"/>
+                            <p:menuitem value="LogIn" url="login.jsf"/>
+                        </p:submenu>
+                    </p:column>
+                </p:submenu>
+            </p:megaMenu>
+
+        </h:form>           
+
+  
         <h:form id="formTop">
             <p:messages id="messages" showDetail="true" closable="true">
                 <p:autoUpdate /> 

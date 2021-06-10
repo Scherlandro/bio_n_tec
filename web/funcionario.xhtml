@@ -11,78 +11,109 @@
 
 
 
+    <div>
+        Funcionários
+    </div>
 
-    <h:form id="formPedido">
-        <p:growl id="growl" showDetail="true" />
-        <p:panel id="empresa" header="Informações do Fornecedor">
-            <p:messages id="msg" />
-            <h:inputHidden value="#{clienteBean.clientEntity.id_cliente}" />
-            <h:panelGrid columns="2">
-                <h:panelGroup>
-                    <p:selectOneMenu id="fornecedor" required="true"
-                                     requiredMessage="Fornecedor obrigatório"
-                                     value="#{clienteBean.clientEntity.nome_cliente}" styleClass="combo">
-                        <f:selectItem itemValue="" itemLabel="Selecione..." />
-                        <f:selectItems value="#{clienteBean.clientEntity.nome_cliente}" />
-                        <f:ajax execute="fornecedor" render="empresa" event="change"
-                                listener="#{clienteBean.listarClientes()}"></f:ajax>
-                    </p:selectOneMenu>
+    <h:form id="formFuncionario">
+
+        <p:panelGrid id="pngFuncionarios" columns="4">
+            <p:panelGrid columns="2">
+                <h:outputLabel value="*Nome:" style="float: left;" />
+                <p:inputText  value="#{funcionarioBean.funcEntity.nome_funcionario}"></p:inputText>
+                <h:outputLabel value="*Cargo:" style="float: left;" />
+                <p:inputText  value="#{funcionarioBean.funcEntity.cargo}"></p:inputText>
+                <h:outputLabel id="lbCpf" value="CPF:" for="cpf" style="float: right;" />
+                <p:inputMask mask="999.999.999-99" id="cpf" size="20" value="#{funcionarioBean.funcEntity.cpf}" />
+                <h:outputLabel id="lbRg" value="RG:" for="rg" style="float: right;" />
+                <p:inputMask mask="999.999.999-99" id="rg" size="20" value="#{funcionarioBean.funcEntity.rg}" />                    
+                <h:outputLabel value="Telefone" style="float: left;"></h:outputLabel>
+                <p:inputMask value="#{funcionarioBean.funcEntity.telefone}" mask="(99)999999999"/>
+                <h:outputLabel value="Celular:" style="float: left;"></h:outputLabel>
+                <p:inputMask value="#{funcionarioBean.funcEntity.celular}" mask="(99)999999999"/>
+                <h:outputLabel value="Zap:" style="float: left;"></h:outputLabel>
+                <p:inputMask value="#{funcionarioBean.funcEntity.zap_funcionario}" mask="(99)999999999"/>
+                <h:outputLabel value="Email:" style="float: left;"></h:outputLabel>
+                <p:inputText value="#{funcionarioBean.funcEntity.email}" />
+                <h:outputLabel value="Obs:" style="float: left;"></h:outputLabel>
+                <p:inputTextarea value="#{funcionarioBean.funcEntity.obs}" />
+            </p:panelGrid>
+            <p:panelGrid>
+                <p:commandButton value="Busca por CEP" onclick="PF('resultCep').show();" type="button" icon="pi pi-home" />
+                <h:selectOneRadio value="#{theActionBean.tag}" required="false" >
+                    <f:selectItem  itemValue="verEndereco" itemLabel="Ver busca" />
+                    <f:selectItem  itemValue="limparEndereco" itemLabel="Atualizar" />
+                    <p:ajax event="change" update="resultCep2" process="@this"/>
+                </h:selectOneRadio>
+                <h:panelGroup id="resultCep2" >
+                    <p:panelGrid columns="2" id="pnGCep2" >
+                        <h:outputLabel value="CEP:" style="float: left;"/>
+                        <p:inputMask mask="99999-999" value="#{funcionarioBean.funcEntity.cep_funcionario}"  />
+                        <h:outputLabel value="Tipo logradouro:" style="float: left;"/>
+                        <p:inputText id="idTipoLogradouro2" value="#{funcionarioBean.funcEntity.tipoLogradouro}"/>
+                        <h:outputLabel value="Logradouro:" style="float: left;"/>
+                        <p:inputText id="idLogradouro2" value="#{funcionarioBean.funcEntity.logradouro}"/>
+                        <h:outputLabel value="Nº:" style="float: left;"/>
+                        <p:inputText id="idNumero2" value="#{funcionarioBean.funcEntity.numero}"/>
+                        <h:outputLabel value="Bairro:" style="float: left;"/>
+                        <p:inputText  id="idBairro2" value="#{funcionarioBean.funcEntity.bairro}" />
+                        <h:outputLabel value="Cidade:" style="float: left;"/>
+                        <p:inputText   id="idCidade2" value="#{funcionarioBean.funcEntity.cidade}" />
+                        <h:outputLabel value="UF:" style="float: left;"/>
+                        <p:inputText  id="idEstado2"  value="#{funcionarioBean.funcEntity.uf}"  />
+                    </p:panelGrid>
                 </h:panelGroup>
-                <h:panelGroup>
-                    <p:inputText id="contrato" readonly="true" required="true"
-                                 requiredMessage="Nº do contrato obrigatório" size="20"
-                                 maxlength="20" value="#{clienteBean.clientEntity.inscricaoest}" />
-                </h:panelGroup>
-            </h:panelGrid>
+            </p:panelGrid>
 
-        </p:panel>
-        <br />
-        <!--https://www.guj.com.br/t/p-dialog-primefaces/192867/4 -->
 
+            <p:dialog  id="resultCep" header="Busca Endereço" widgetVar="resultCep" focus="idcep">
+                <p:panelGrid columns="2" id="pnGCep"  >
+                    <p:inputMask id="idcep" mask="99999-999" value="#{mbService.cepResult}"  />
+                    <p:commandButton value="Cep:" style="float: left;" action="#{mbService.encontraCEP()}" update="resultCep"
+                                     onkeypress="#{funcionarioBean.execute(mbService.cepResult,mbService.tipoLogradouro,
+                                                   mbService.logradouro, mbService.bairro, mbService.cidade, mbService.estado)}"/>
+                </p:panelGrid>                         
+            </p:dialog>
+
+        </p:panelGrid>
+
+        <p:commandButton icon="ui-icon-disk" title="Gravar" actionListener="#{funcionarioBean.adicionar()}" update="formFuncionario:pngFuncionarios" action="#{mensagens.msgDeGravacao()}"></p:commandButton>
+        <p:commandButton icon="ui-icon-search" title="Pesquisar" actionListener="#{funcionarioBean.funcList}" update="tbFuncionario" action="#{mensagens.msgAdvertir()}"></p:commandButton>
+
+        <p:dataTable id="tbFuncionario" value="#{funcionarioBean.funcList}" var="listFuncXML" emptyMessage="Nenhum registro encontrado."
+                     style="font-size: 14px;" paginator="true"
+                     rows="5"
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,20,50">
+
+            <p:column headerText="Nome"  style="width: 8%" >
+                <h:outputText value="#{listFuncXML.nome_funcionario}"></h:outputText>
+            </p:column>
+            <p:column headerText="CPF"  style="width: 8%" >
+                <h:outputText value="#{listFuncXML.cpf}"></h:outputText>
+            </p:column>
+            <p:column headerText="Zap"  style="width: 10%">
+                <h:outputText value="#{listFuncXML.zap_funcionario}"></h:outputText>
+            </p:column>
+            <p:column headerText="Bairro" style="width: 12%" >
+                <h:outputText value="#{listFuncXML.bairro}"></h:outputText>
+            </p:column>
+            <p:column headerText="Cidade" style="width: 8%" >
+                <h:outputText value="#{listFuncXML.cidade}"></h:outputText>
+            </p:column>
+            <p:column headerText="UF" style="width: 3%">
+                <h:outputText value="#{listFuncXML.uf}"></h:outputText>
+            </p:column>
+            <p:column style="width: 3%">                 
+                <p:commandButton icon="ui-icon-pencil" title="Editar" actionListener="#{funcionarioBean.editar(listFuncXML)}" update=":formFuncionario:pngFuncionarios"/>
+            </p:column>
+            <p:column style="width: 3%">  
+                <p:commandButton icon="ui-icon-trash" title="Excluir" actionListener="#{funcionarioBean.remover(listFuncXML)}" action="#{mensagens.msgDeExcluir()}" update=":formFuncionario:pngFuncionarios"></p:commandButton>
+            </p:column>
+        </p:dataTable>
+        <!-- </p:fieldset> -->
     </h:form>
 
-    <h:form>
-
-        <p:fragment>
-            <p:autoUpdate />
-            <h:panelGrid columns="4" cellpadding="5">
-                <p:outputLabel for="txt" value="Escreva um texto qualquer:" />
-                <p:inputText id="txt" value="#{theActionBean.tag}" />
-                <p:commandButton value="Submit"/>
-                <h:outputText value="#{theActionBean.tag}"   />
-            </h:panelGrid>
-        </p:fragment>
-    </h:form>
-
-
-    <!--https://www.primefaces.org/showcase/ui/ajax/fragment.xhtml  -->
-
-    <!-- https://www.logicbig.com/tutorials/misc/primefaces/pick-list.html -->
-
-    <!-- https://www.youtube.com/watch?v=4uxVKdH9UVA    -->
-    <h:form>
-        <h:panelGrid  columns="4" >
-            <p:pickList value="#{funcionarioBean.dualListF}" var="func" 
-                        itemLabel="#{func.nome_funcionario}" itemValue="#{func.nome_funcionario}">
-                <f:facet name="sourceCaption">Lista de origem</f:facet>
-                <f:facet name="targetCaption">Selecionados</f:facet>
-            </p:pickList>
-            <p:commandButton id="idbutt" update="formMSG" value="Ver Listas " actionListener="#{funcionarioBean.showResult()}" />
-
-            <p:panelGrid id="formMSG">
-                <p:messages id="messIndex" showDetail="true" closable="true"  style="font-size: small" /> 
-            </p:panelGrid> 
-
-            <h:panelGrid  id="display"  >
-                <h3>Lista de origem:</h3>
-                <ui:repeat value="#{funcionarioBean.funcList}" var="func">
-                    <h:outputText value="#{func.nome_funcionario} "/>
-                    <br/>
-                </ui:repeat>
-            </h:panelGrid>
-
-        </h:panelGrid>
-    </h:form>
 
 
 </ui:decorate>

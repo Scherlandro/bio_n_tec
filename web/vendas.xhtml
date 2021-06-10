@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:outputScript name="action.js" library="js"/>
+
+    <p:growl id="mensagemDeVendas"/>
+
+
+    <h:form  id="formAbrirVenda">
+
+
+        <p:fieldset id="fielVerVenda" legend="Extender Vendas" toggleable="true" collapsed="true" toggleSpeed="100"  > 
+
+            <p:commandButton value="Relatório" action="#{vendaBean.gerarRelatorio()}" ajax="false"
+                             onclick="this.form.target = '_blank'"/>
+            <p:commandButton value="Atualizar" actionListener="#{vendaBean.listarVendas()}" 
+                             update="formAbrirVenda:tbVendas" disabled="#{vendaBean.listarVendas() eq true}"
+                             action="#{mensagens.msgDeAtualizar()}"/>
+            <p:commandButton  value="Limpar" icon="ui-icon-star" action= "#{vendaBean.limparVd()}"  update=":formAbrirVenda:tbVendas"  type="reset"  />
+
+
+
+            <p:dataTable id="tbVendas" value="#{vendaBean.vendList}" var="listVend" emptyMessage="Nenhum registro encontrado."
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         style="font-size: 14px;" paginator="true"  rows="10"  rowsPerPageTemplate="10,20,50" >
+
+
+                <p:column headerText="Up" style="width: 5%">
+                    <p:commandButton value="§" actionListener="#{vendaBean.editar(listVend)}" update="@form" />
+                </p:column>
+                <p:column headerText="Código" style="width: min-content" >
+                    <h:outputText style="text-align: left;" value="#{listVend.cod_venda}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Cliente" style="width: 18%" filterBy="#{listVend.nome_cliente}" sortBy="#{listVend.nome_cliente}" >
+                    <h:outputText value="#{listVend.nome_cliente}" style="text-align: left;"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Operador" style="width: 15%" >
+                    <h:outputText value="#{listVend.nome_funcionario}"></h:outputText>
+                </p:column>
+                <p:column headerText="Data da venda" style="width: 10%" >
+                    <h:outputText value="#{listVend.dt_venda}"></h:outputText>
+                </p:column>
+                <p:column headerText="Total Geral"  style="width: 15%"  >
+                     <p:inputNumber  value="#{listVend.total_geral}" symbol=" R$ " symbolPosition="p" decimalSeparator="," thousandSeparator="."  />  
+                   <!--      <h:outputText value="#{listVend.total_geral}">
+                   <f:convertNumber currencySymbol="R$" type="currency"/>
+                        <f:convertNumber locale="pt_BR" minFractionDigits="2" /> 
+                    </h:outputText>
+                     -->
+                </p:column>
+
+                <p:column headerText="Formas de pagamento" style="width: 8%"   >
+                    <h:outputText value="#{listVend.forma_de_pagamento}"/>
+                </p:column>
+                <p:column headerText="Número de parcelas" style="width: 6%"   >
+                    <h:outputText value="#{listVend.qtd_de_parcelas}"/>
+                </p:column>
+                <p:column  style="width: 6%"   >
+                    <p:commandButton icon="ui-icon-pencil"  title="Editar" actionListener="#{vendaBean.editar(listVend)}" update="formAbrirVenda:pngEditarVenda" />
+                </p:column>
+                <p:column  style="width: 6%" >
+                    <p:commandButton icon="ui-icon-trash" title="Remover" actionListener="#{vendaBean.remover(listVend)}" action="#{mensagens.msgDeExcluir()}" update="@form"></p:commandButton>
+                </p:column>
+            </p:dataTable>       
+
+
+            <p:panelGrid id="pngEditarVenda" columns="10" style="width: 100%" >
+                <div class="ui-inputgroup"  >
+                    <span class="ui-inputgroup-addon">Cod Venda<i class="pi pi-user"></i></span> 
+                    <p:inputText id="inputIdVenda" placeholder="Cod da Venda" style="width: 70%"
+                                 value="#{vendaBean.vendEntity.cod_venda}"   />
+                </div>
+                <div class="ui-inputgroup" >
+                    <span class="ui-inputgroup-addon">Cliente<i class="pi pi-user"></i></span> 
+                    <p:inputText id="inputClente" placeholder="Nome do Cliente" style="width: 90%"
+                                 value="#{vendaBean.vendEntity.nome_cliente}"/>
+                </div>
+                <div class="ui-inputgroup" >
+                    <span class="ui-inputgroup-addon" > Data <i class="pi pi-user" ></i></span> 
+                    <p:inputText id="inputData" placeholder="Data"  style="width: 70%"
+                                 value="#{vendaBean.vendEntity.dt_venda}"/>
+                </div>
+                <div class="ui-inputgroup" >
+                    <span class="ui-inputgroup-addon"> Total Geral <i class="pi pi-user"> </i></span> 
+                  <p:inputNumber  id="inputTotalGeral"  placeholder="Total Geral" style="width: 5%" 
+                                  value="#{vendaBean.vendEntity.total_geral}" symbol=" R$ " symbolPosition="p" decimalSeparator="," thousandSeparator="." />  
+                </div>
+                <div class="ui-inputgroup" >
+                    <span class="ui-inputgroup-addon">Listar Itens da Venda  <i class="pi pi-user"></i></span> 
+                    <p:commandButton icon="ui-icon-search" style="width: 80%" process="@this"
+                                     action="#{itensBean.listaItensVdPorCod(vendaBean.vendEntity.cod_venda)}" update="formIntensDaVenda:tbItensEscolhidos" />
+                </div>                       
+            </p:panelGrid >
+        </p:fieldset>
+
+    </h:form>
+
+    <p:fieldset id="fielVerItensDaVenda" legend="Itens da venda" 
+                toggleable="true" collapsed="false" toggleSpeed="100"  > 
+
+        <h:form id="formIntensDaVenda" >
+
+            <p:panelGrid columns="1" >
+                <h:panelGrid cellpadding="1" style="width:100%">
+
+                    <p:dataTable id="tbItensEscolhidos" value="#{itensBean.listaItensDaVdPorCod()}"  var="listaItensXML" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 emptyMessage="Nenhum registro encontrado" 
+                                 style="font-size: 14px;" paginator="true"  rows="10"  rowsPerPageTemplate="10,20,50" > 
+
+
+                        <p:column headerText="Codigo" style="width: 3%"  > 
+                            <h:outputText value="#{listaItensXML.codProdutoItens}"/>
+                        </p:column>
+                        <p:column headerText="Descrição" style="width: 15%"  > 
+                            <h:outputText value="#{listaItensXML.descricaoDoIntem}"/>
+                        </p:column>
+                        <p:column headerText="Val Unit" style="width: 3%; text-align:center"  >
+                            <h:outputText value="#{listaItensXML.valorItem}">
+                                <f:convertNumber locale="pt_BR" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="QTD" style="width: 2%; text-align:center" >
+                            <h:outputText value="#{listaItensXML.qtdItem}" />
+                        </p:column>
+                        <p:column headerText="Val Parcial" style="width: 3%; text-align:center"  >
+                            <h:outputText value="#{listaItensXML.valorParcial}">
+                                <f:convertNumber locale="pt_BR" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Opções" style="width: 2%" >                            
+                            <p:commandButton  icon="ui-icon-check" title="Remover no Caixa"/>
+                        </p:column>
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column footerText=" "/>
+                                <p:column footerText=" " />
+                                <p:column footerText=" " />
+                                <p:column footerText="Total: " style="text-align:right"/>
+                                <p:column footerText="#{itensBean.SomarItens()}" style="text-align:center" />
+                                <p:column footerText=" " />
+                            </p:row>
+                        </p:columnGroup> 
+
+                    </p:dataTable>
+
+                </h:panelGrid>
+            </p:panelGrid>  
+        </h:form>  
+    </p:fieldset>
+
+
+
+
+</ui:decorate>

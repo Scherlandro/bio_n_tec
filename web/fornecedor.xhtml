@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+   
+
+    <h:form id="formCadFornecedores">
+
+
+        <p:panelGrid id="pngFornecedors" columns="4">
+
+            <p:panelGrid columns="2">
+                <h:outputLabel value="*Nome:" style="float: left;" />
+                <p:inputText  value="#{fornecedorBean.fornecedEntity.razao_social}"></p:inputText>
+                <h:outputLabel value="Inscrição Estadual" style="float: left;"></h:outputLabel>
+                <p:inputText value="#{fornecedorBean.fornecedEntity.inscricaoest}"></p:inputText>
+
+                <h:selectOneRadio id="pessoa" value="#{fornecedorBean.fornecedEntity.pessoa}" required="false"
+                                  requiredMessage="Campo [Pessoa] é obrigatório." >
+                    <f:selectItem itemLabel="Jurídica" itemValue="Jurídica" />
+                    <f:selectItem itemLabel="Física" itemValue="Física" />
+                    <p:ajax event="change" update="pnPessoaFornecedor" process="@this"/>
+                </h:selectOneRadio>
+                
+                <p:outputPanel id="pnPessoaFornecedor" >
+                    <p:panelGrid columns="2">
+                        <h:outputLabel id="lbCpf" value="CPF:" for="cpf" style="float: right;" rendered="#{fornecedorBean.fornecedEntity.pessoa=='Física'}"/>
+                        <p:inputMask mask="999.999.999-99" id="cpf" size="20" rendered="#{fornecedorBean.fornecedEntity.pessoa=='Física'}"
+                                     value="#{fornecedorBean.fornecedEntity.cpf}" accesskey="buttVer" />
+
+                        <h:outputLabel id="lbCnpj" value="CNPJ:" for="cnpj" rendered="#{fornecedorBean.fornecedEntity.pessoa=='Jurídica'}"
+                                       style="float: right;" />
+                        <p:inputMask mask="99.999.999/9999-99" id="cnpj" size="20" rendered="#{fornecedorBean.fornecedEntity.pessoa=='Jurídica'}"
+                                     value="#{fornecedorBean.fornecedEntity.cnpj}" accesskey="buttVer" />
+                <p:commandButton id="buttVer" icon="ui-icon-person"
+                                         actionListener="#{fornecedorBean.verificaReplica()}" style="height: 20px; width: 20px; margin-bottom: 10px;" title="Verificar Duplicidade" />
+                    </p:panelGrid>
+                </p:outputPanel>
+
+                <p:panelGrid columns="2">
+                    <p:calendar  id="idCaledario" widgetVar="calendarVar" value="#{calendarManagedBean.date}"  size="5" style="width: 10%;">
+                        <p:commandButton icon= "ui-icon-calendar" />
+                    </p:calendar>
+                <p:inputText id="dataEscolhida" value="#{fornecedorBean.fornecedEntity.data_vinculo}" onclick ="selecionaData()" style="width: 80%" ></p:inputText>
+                    
+                    <h:outputLabel value="Telefone:" style="float: left;"></h:outputLabel>
+                    <p:inputText value="#{fornecedorBean.fornecedEntity.telefone}" />
+                    <h:outputLabel value="Celular:" style="float: left;"></h:outputLabel>
+                    <p:inputMask value="#{fornecedorBean.fornecedEntity.celular}" mask="(99)999999999"/>
+                    <h:outputLabel value="Zap:" style="float: left;"></h:outputLabel>    
+                    <p:inputText value="#{fornecedorBean.fornecedEntity.zap}" />
+                    <h:outputLabel value="Email:" style="float: left;" />
+                    <p:inputText  value="#{fornecedorBean.fornecedEntity.email}"/>
+                    <h:outputLabel value="Site:" style="float: left;" />
+                    <p:inputText  value="#{fornecedorBean.fornecedEntity.site}"/>
+                </p:panelGrid>
+            </p:panelGrid>
+
+            <p:panelGrid>
+                <p:commandButton value="Busca por CEP" onclick="PF('resultCep').show();" type="button" icon="pi pi-home" />
+                <h:selectOneRadio value="#{theActionBean.tag}" required="false" >
+                    <f:selectItem  itemValue="verEndereco" itemLabel="Ver busca" />
+                    <f:selectItem  itemValue="limparEndereco" itemLabel="Atualizar" />
+                    <p:ajax event="change" update="resultCep2" process="@this"/>
+                </h:selectOneRadio>
+
+                <h:panelGroup id="resultCep2"  >
+                    <p:panelGrid columns="2" id="pnGCep2" >
+                        <h:outputLabel value="CEP:" style="float: left;"/>
+                        <p:inputMask mask="99999-999" value="#{fornecedorBean.fornecedEntity.cep_fornecedor}"  />
+                        <h:outputLabel value="Logradouro:" style="float: left;"/>
+                        <p:inputText id="idLogradouro2" value="#{fornecedorBean.fornecedEntity.logradouro}"/>
+                        <h:outputLabel value="Nº:" style="float: left;"/>
+                        <p:inputText id="idNumero2" value="#{fornecedorBean.fornecedEntity.numero}"/>
+                        <h:outputLabel value="Complementos:" style="float: left;"/>
+                        <p:inputText id="idComplemento2" value="#{fornecedorBean.fornecedEntity.complementos}"/>
+                        <h:outputLabel value="Bairro:" style="float: left;"/>
+                        <p:inputText  id="idBairro2" value="#{fornecedorBean.fornecedEntity.bairro}" />
+                        <h:outputLabel value="Cidade:" style="float: left;"/>
+                        <p:inputText   id="idCidade2" value="#{fornecedorBean.fornecedEntity.cidade}" />
+                        <h:outputLabel value="UF:" style="float: left;"/>
+                        <p:inputText  id="idEstado2"  value="#{fornecedorBean.fornecedEntity.estado}"  />
+                    </p:panelGrid>
+                </h:panelGroup>
+            </p:panelGrid>
+
+
+            <p:dialog  id="resultCep" header="Busca Endereço" widgetVar="resultCep" focus="idcep">
+                <p:panelGrid columns="2" id="pnGCep"  >
+                    <p:inputMask id="idcep" mask="99999-999" value="#{mbService.cepResult}"  />
+                    <p:commandButton value="Cep:" style="float: left;" action="#{mbService.encontraCEP()}" update="resultCep"
+                                     onkeypress="#{fornecedorBean.execute(mbService.cepResult,mbService.tipoLogradouro,
+                                                   mbService.logradouro, mbService.bairro, mbService.cidade, mbService.estado)}"/>
+                </p:panelGrid>                         
+            </p:dialog>
+
+        </p:panelGrid>
+        <p:commandButton icon="ui-icon-disk" title="Gravar" actionListener="#{fornecedorBean.adicionar()}" update="formCadFornecedores:pngFornecedors" action="#{mensagens.msgDeGravacao()}"></p:commandButton>
+        <p:commandButton icon="ui-icon-search" title="Pesquisar" actionListener="#{fornecedorBean.listarFornecedores()}" update="formTbFornecedores:tbFornecedor" action="#{mensagens.msgAdvertir()}"></p:commandButton>
+        <p:commandButton icon="ui-icon-arrowrefresh-1-e" title="Limpar" actionListener="#{fornecedorBean.limpaTela()}" update="@form" action="#{mensagens.msgAdvertir()}"></p:commandButton>
+
+    </h:form>
+    <h:form id="formTbFornecedores">
+        <p:dataTable id="tbFornecedor" value="#{fornecedorBean.fornecedorList}" var="listFornecd" emptyMessage="Nenhum registro encontrado."
+                     style="font-size: 14px;" paginator="true"
+                     rows="5"
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,20,50">
+            <p:column headerText="Razão Social" style="width: 15%" >
+                <h:outputText style="text-align: left;" value="#{listFornecd.razao_social}"></h:outputText>
+            </p:column>
+              <p:column headerText="CPF"  style="width: 8%" >
+                <h:outputText value="#{listFornecd.cpf}"></h:outputText>
+            </p:column>
+            <p:column headerText="CNPJ"  style="width: 10%">
+                <h:outputText value="#{listFornecd.cnpj}"></h:outputText>
+            </p:column>
+            <p:column headerText="Bairro" style="width: 12%" >
+                <h:outputText value="#{listFornecd.bairro}"></h:outputText>
+            </p:column>
+            <p:column headerText="Cidade" style="width: 8%" >
+                <h:outputText value="#{listFornecd.cidade}"></h:outputText>
+            </p:column>
+            <p:column headerText="UF" style="width: 3%">
+                <h:outputText value="#{listFornecd.estado}"></h:outputText>
+            </p:column>
+            <p:column style="width: 3%">
+                <p:commandButton icon="ui-icon-pencil" actionListener="#{fornecedorBean.editar(listFornecd)}" update="formCadFornecedores:pngFornecedors"/>
+            </p:column>
+            <p:column style="width: 3%">
+                <p:commandButton icon="ui-icon-trash" actionListener="#{fornecedorBean.remover(listFornecd)}" action="#{mensagens.msgDeExcluir()}" update="@form"></p:commandButton>
+            </p:column>
+        </p:dataTable>
+        <!-- </p:fieldset> -->
+    </h:form>
+
+
+</ui:decorate>
+

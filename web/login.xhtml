@@ -5,24 +5,25 @@
              xmlns:p="http://primefaces.org/ui"
              xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
              template="radix.xhtml">
-                 
+
+    
+    <p:messages id="messIndex" showDetail="true" closable="true">
+        <p:autoUpdate /> 
+    </p:messages> 
    
         <p:dialog  header="Login" id="idlogin" widgetVar="login" 
                    footer=" Entre com Nome de usuário e senha"
-                   closable="true" draggable="true" maximizable="true" minimizable="true"
-                   showEffect="explode" hideEffect="bounce" height="100" modal="true"
+                   closable="true" draggable="true"
+                   showEffect="explode" hideEffect="bounce" height="120" width="400" modal="true"
                    position="center" resizable="false" visible="true">
 
-            <h:form>            
+            <h:form id="formLog">            
                 <p:panelGrid columns="2">
-                    <p:messages id="messIndex" showDetail="true" closable="true">
-                        <p:autoUpdate /> 
-                    </p:messages> 
                     <h:outputLabel for="prenome" value="Nome"></h:outputLabel>
-                    <p:inputText id="prenome" value="#{loginBean.nome}" ></p:inputText>
+                    <p:inputText id="prenome" value="#{autenticadorBean.nome}" ></p:inputText>
                     <h:outputLabel for="senha" value="Senha"></h:outputLabel>
-                    <h:inputSecret id="senha" value="#{loginBean.senha}" ></h:inputSecret>
-                    <p:commandButton value="Logar" action="#{loginBean.logar()}" actionListener="#{mensagens.msgDeErro()}" ></p:commandButton>
+                    <h:inputSecret id="senha" value="#{autenticadorBean.senha}" ></h:inputSecret>  
+                    <p:commandButton  value="Logar" action="#{autenticadorBean.autenticarUsuario()}" actionListener="#{mensagens.msgDeErro()}"   />
                 </p:panelGrid>            
             </h:form>
         </p:dialog>

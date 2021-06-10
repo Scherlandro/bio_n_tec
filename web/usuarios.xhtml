@@ -7,56 +7,61 @@
              template="template.xhtml"
              xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <h:form>
+    <h:form id="formUsuario">
         <!-- <p:fieldset legend="Objetos"> -->
-        <p:panelGrid columns="2" >
+         <p:fieldset  id="pngUsuario"  legend="Cadastrar Usuario " toggleable="true" toggleSpeed="500" >
             <h:outputLabel value="Nome"></h:outputLabel>
-            <p:inputText value="#{usuarioBean.userEntity.nome_usuario}"></p:inputText>
+            <p:inputText value="#{usuarioBean.userEntity.nomeUsuario}"></p:inputText>
             <h:outputLabel value="Email"></h:outputLabel>
             <p:inputText value="#{usuarioBean.userEntity.email}"></p:inputText>
             <h:outputLabel value="Senha"></h:outputLabel>
             <p:inputText value="#{usuarioBean.userEntity.senha}"></p:inputText>
             <h:outputLabel value="Perfil"></h:outputLabel>
             <p:inputText value="#{usuarioBean.userEntity.perfil}"></p:inputText>
-            <p:commandButton value="Salvar" actionListener="#{usuarioBean.adicionar()}" update="@form" action="#{mensagens.msgDeGravacao()}"></p:commandButton>
-            <p:commandButton value="Pesquisar" actionListener="#{usuarioBean.listarUsurio()}" update="tbUsuario" action="#{mensagens.msgAdvertir()}"></p:commandButton>
-        </p:panelGrid>
-        <p:dataTable id="tbUsuario" value="#{usuarioBean.userList}" var="listUser" >
-            <p:column headerText="ID" sortBy="#{listUser.id_usuario}">
-                <h:outputText value="#{listUser.id_usuario}"></h:outputText>
+            <p:commandButton icon="ui-icon-disk" actionListener="#{usuarioBean.gravar()}" update="formUsuario:pngUsuario" action="#{mensagens.msgDeGravacao()}"></p:commandButton>
+      </p:fieldset>
+       
+          <p:dataTable id="tbUsuario" value="#{usuarioBean.userList}" var="listUser" emptyMessage="Nenhum registro encontrado."
+                       style="font-size: 14px;" paginator="true" rows="10" rowsPerPageTemplate="10,20,50" >
+              
+              <p:column headerText="ID" sortBy="#{listUser.idUsuario}" style="width: 3%">
+                  <h:outputText value="#{listUser.idUsuario}"></h:outputText>
             </p:column>
-            <p:column headerText="Nome" sortBy="#{user.nome_usuario}">
-                <h:outputText value="#{listUser.nome_usuario}"></h:outputText>
+            <p:column headerText="Nome" sortBy="#{user.nome_usuario}" style="width: 15%">
+                <h:outputText value="#{listUser.nomeUsuario}"></h:outputText>
             </p:column>
-            <p:column headerText="Email" sortBy="#{user.email}">
+            <p:column headerText="Email" sortBy="#{user.email}" style="width: 15%">
                 <h:outputText value="#{listUser.email}"></h:outputText>
             </p:column>
-            <p:column headerText="Senha">
+            <p:column headerText="Senha" style="width: 8%">
                 <h:outputText value="#{listUser.senha}"></h:outputText>
             </p:column>
-            <p:column headerText="Perfil">
+            <p:column headerText="Perfil" style="width: 8%" >
                 <h:outputText value="#{listUser.perfil}"></h:outputText>
             </p:column>
-            <p:column>
-                <p:commandButton value="Editar" actionListener="#{usuarioBean.editar(listUser)}" update="@form"></p:commandButton>
+            <p:column style="width: 3%" >
+                <p:commandButton icon="ui-icon-pencil" title="Edidtar" actionListener="#{usuarioBean.editar(listUser)}" update=":formUsuario:pngUsuario" ></p:commandButton>
             </p:column>
-            <p:column>
-                <p:commandButton value="Remover" actionListener="#{usuarioBean.remover(listUser)}" action="#{mensagens.msgDeExcluir()}" update="@form"></p:commandButton>
+                <p:column style="width: 3%" >
+                    <p:commandButton icon="ui-icon-trash" title="Excluir" actionListener="#{usuarioBean.remover(listUser)}" action="#{mensagens.msgDeExcluir()}" update=":formUsuario:pngUsuario"></p:commandButton>
             </p:column>
         </p:dataTable>
-        <!-- </p:fieldset> -->
+  
+        
     </h:form>
     
-    <h:form>
+    </ui:decorate>
+             <!-- 
+            <h:form>
 			<p:calendar widgetVar="calendarVar" value="#{calendarManagedBean.date}"></p:calendar>
 			<br/>
 			<input type="button" value="Get Date" onclick="alert(PF('calendarVar').getDate())"/>
-			<input type="button" value="Set Date" onclick="PF('calendarVar').setDate('06/20/14')"/>
+			<input type="button" value="Set Date" onclick="PF('calendarVar').setDate('30')"/>
 			<input type="button" value="Disable" onclick="PF('calendarVar').disable()"/>
 			<input type="button" value="Enable" onclick="PF('calendarVar').enable()"/>
 		</h:form>
+             --> 
     
     
     
-</ui:decorate>
 

@@ -13,10 +13,10 @@ import java.util.List;
 public class EnderecoDAO {
       PreparedStatement pstm;
     ResultSet rs;
-    private String consultarEndereco = "Select *From Endereco Where cep = ?";
-    private String cadastrarEndereco = "Insert into Endereco (cep,logradouro,bairro,cidade,estado,pais)  Values (?,?,?,?,?,?)";
-    private String alteraEndereco = "UPDATE Endereco Set cep = ?, logradouro = ?, bairro = ?, cidade = ?, estado = ?, pais = ? Where cep = ?";
-    private String excluirEndereco = "Delete From Endereco Where cep = ?";
+    private String consultarEndereco = "Select *From endereco Where cep = ?";
+    private String cadastrarEndereco = "Insert into endereco (cep,logradouro,bairro,cidade,estado,pais)  Values (?,?,?,?,?,?)";
+    private String alteraEndereco = "UPDATE endereco Set cep = ?, logradouro = ?, bairro = ?, cidade = ?, estado = ?, pais = ? Where cep = ?";
+    private String excluirEndereco = "Delete From eEndereco Where cep = ?";
 
      public void salvarEndereco(Endereco endr) {
         try {
