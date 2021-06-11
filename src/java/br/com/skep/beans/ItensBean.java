@@ -27,6 +27,13 @@ public class ItensBean implements Serializable{
     private Vendas vendaEntity = new Vendas();
     private List<Produto> produtosList;
 
+   
+        public List<ItensVenda> listaTodosItensDaVd() {
+            List<ItensVenda> listarTodosIntens;
+            listarTodosIntens = itensVdDAO.listarTodosItensDaVenda();
+            return listarTodosIntens;       
+    }
+    
     public void salvarItens() {
         itensVdDAO.salvar(itensVdEntity, vendaEntity);
         itensVdEntity = new ItensVenda();

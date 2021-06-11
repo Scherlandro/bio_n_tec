@@ -13,31 +13,32 @@
 
     <h:form id="formIntensDoCaixaRapido">  
 
-        <p:dataTable id="tbItensEscolhidos" value="#{itensBean.listaTodosItensDaVd()}" var="listaItensXML"  >
+        <p:dataTable id="tbItensEscolhidos" value="#{itensBean.listaTodosItensDaVd()}" var="listaItensXML"  emptyMessage="Nenhum registro encontrado."
+                         style="font-size: 14px;" paginator="true"  rows="10"  rowsPerPageTemplate="10,20,50" >
 
-            <p:column headerText="Id"  >
+            <p:column headerText="Id Venda"  style="width: 5%"  >
                 <h:outputText value="#{listaItensXML.id_itensVd}" />
             </p:column>
-            <p:column headerText="Codigo"  >
+            <p:column headerText="Codigo Prod"  style="width: 5%" >
                 <h:outputText value="#{listaItensXML.codProdutoItens}" />
             </p:column>
-            <p:column headerText="Descrição" >
+            <p:column headerText="Descrição"  style="width: 15%" >
                 <h:outputText value="#{listaItensXML.descricaoDoIntem}"/>
             </p:column>
-            <p:column headerText="Val Unit" >
+            <p:column headerText="Val Unit" style="width: 5%" >
                 <h:outputText value="#{listaItensXML.valorItem}">
                     <f:convertNumber locale="pt_BR" minFractionDigits="2" />
                 </h:outputText>
             </p:column>
-            <p:column headerText="QTD">
+            <p:column headerText="QTD"  style="width: 3%" >
                 <h:outputText value="#{listaItensXML.qtdItem}" />
             </p:column>
-            <p:column headerText="Val Parcial"  >
+            <p:column headerText="Val Parcial"  style="width: 5%"  >
                 <h:outputText value="#{listaItensXML.valorParcial}">
                     <f:convertNumber locale="pt_BR" minFractionDigits="2" />
                 </h:outputText>
             </p:column>
-            <p:column  >
+            <p:column headerText="Opções"  style="width: 5%"  >
                 <p:commandButton  icon=" ui-icon-trash" title="Remover Item"
                                   actionListener="#{itensBean.removerItem(listaItensXML)}" update=":formIntensDoCaixaRapido:tbItensEscolhidos">
                 </p:commandButton>                            
@@ -87,7 +88,7 @@
 
 
             <p:dataTable id="tbVendas" value="#{vendaBean.vendList}" var="listVend" emptyMessage="Nenhum registro encontrado."
-                         style="font-size: 14px;" paginator="true"  rows="5"  rowsPerPageTemplate="10,20,50" >
+                         style="font-size: 14px;" paginator="true"  rows="5"  rowsPerPageTemplate="5,10,20,50" >
 
 
                 <p:column headerText="Código" style="width: min-content" >
